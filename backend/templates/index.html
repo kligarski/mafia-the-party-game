@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block body %}
+  <div id="root">
+    <h1>Main page</h1>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error-message">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    <div class="flex-normal-box">
+      <form action="" method="post">
+        {% csrf_token %}
+        <h2>Join a game...</h2>
+        <div class="flex-center-box gap15">
+          <input required class="text-input" type="text" name="game_code" placeholder="Enter game code..." autocomplete="off" maxlength="6" minlength="6" />
+          <input class="button" type="submit" value="Join" />
+        </div>
+      </form>
+    </div>
+
+    <div class="flex-normal-box">
+      <form action="" method="post">
+        {% csrf_token %}
+        <h2>...or create a new one!</h2>
+        <div class="flex-center-box gap15">
+          <input class="button" type="submit" value="Create new game" />
+        </div>
+      </form>
+    </div>
+
+    <div class="footer">
+      <a class="footer-link" href="{% url 'logout' %}">Change username (currently: {{ request.user.visible_username }})</a>
+    </div>
+  </div>
+{% endblock %}

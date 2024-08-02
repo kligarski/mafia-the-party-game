@@ -3,5 +3,17 @@
 {% block body %}
   <div id="root">
     <h1>Login page</h1>
+    <form action="{% url 'login' %}" method="post">
+      {% csrf_token %}
+      <div id="login_form_items">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="error-message">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        <input required class="text-input" type="text" name="username" placeholder="Enter your username..." autocomplete="off" />
+        <input class="button" type="submit" value="Set" />
+      </div>
+    </form>
   </div>
 {% endblock %}
