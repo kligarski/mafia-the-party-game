@@ -6,8 +6,10 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import User
 
-def game(request):
-    return render(request, "game.html")
+def game(request, game_code):
+    return render(request, "game.html", {
+        "game_code": game_code
+    })
 
 @login_required
 def index(request):
