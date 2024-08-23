@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+  {{ game_code|json_script:'game-code' }}
   <div id="root"></div>
   {% for js_path in reactjs_assets_js_paths %}
     <script src="{% static js_path %}"></script>
