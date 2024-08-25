@@ -1,7 +1,6 @@
 import json
 
 from channels.generic.websocket import JsonWebsocketConsumer
-from asgiref.sync import async_to_sync
 
 from .models import Game, Player, Lobby
 
@@ -32,6 +31,8 @@ class GameConsumer(JsonWebsocketConsumer):
         
         print(f"{self.user.visible_username} joined {self.game_code}")
         
+        self.player.update_state()
+        
         if not self.game.has_started: 
             lobby = Lobby.objects.get(game=self.game)
             lobby.handle_players_change()
@@ -48,8 +49,8 @@ class GameConsumer(JsonWebsocketConsumer):
             lobby.handle_players_change()
     
     def receive_json(self, content: dict):
-        if "type" in content.keys() and "data" in content.keys():
-            self.game.handle_action(content["type"], content["data"])
+        if "action" in content.keys() and "data" in content.keys():
+            self.game.handle_action(content["action"], content["data"])
         else:
             print("Invalid message from client")
             print(content)

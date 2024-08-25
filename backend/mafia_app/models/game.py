@@ -20,6 +20,7 @@ class Game(models.Model):
     code = models.CharField(default=generate_game_code, max_length=GAME_CODE_LENGTH)
     has_started = models.BooleanField(default=False)
     has_finished = models.BooleanField(default=False)
+    cycle = models.IntegerField(default=0)
     current_state = models.OneToOneField("GameState", on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
 
     @property

@@ -12,7 +12,7 @@ class Lobby(GameState):
     def handle_players_change(self):
         connected_players = self.game.players.filter(is_connected=True)
         
-        state = {
+        view = {
             "view": "lobby",
             "players": [
                 {
@@ -24,5 +24,5 @@ class Lobby(GameState):
         }
         
         for player in connected_players:
-            player.state = state
+            player.view = view
             player.update_view()

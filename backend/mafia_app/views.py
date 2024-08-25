@@ -44,7 +44,7 @@ def game(request, game_code):
             return HttpResponseRedirect(reverse("index"))
         else:
             Player.objects.create(user=request.user, game=game, 
-                                role=Player.Role.VILLAGER, state={})
+                                role=Player.Role.VILLAGER)
     
     return render(request, "game.html", {
         "game_code": game_code
@@ -58,7 +58,7 @@ def create(request):
             return HttpResponseRedirect(reverse("index"))
         
         new_game = Game.objects.create()
-        new_player = Player.objects.create(user=request.user, game=new_game, role=Player.Role.MODERATOR, state={})
+        new_player = Player.objects.create(user=request.user, game=new_game, role=Player.Role.MODERATOR)
         new_lobby = Lobby.objects.create(game=new_game)
         
         new_game.current_state = new_lobby

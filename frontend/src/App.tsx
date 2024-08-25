@@ -1,12 +1,18 @@
 import useWebSocket from "react-use-websocket";
 import "./App.css";
 import { useEffect, useState } from "react";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-json"
+import "ace-builds/src-noconflict/theme-github_dark"
+import "ace-builds/src-noconflict/ext-language_tools";
 
 function App() {
   const gameCode = JSON.parse(
     String(document.getElementById("game-code")?.textContent)
   );
   const socketUrl = "ws://127.0.0.1:8000/ws/game/" + gameCode + "/";
+
+  const [wsMsg, setWsMsg] = useState<string>("{\n  \"action\": \n  \"data\": \n}");
 
   const [messages, setMessages] = useState<any[]>([]);
 
@@ -31,17 +37,26 @@ function App() {
 
   function sendEvent(e: React.FormEvent<MessageFromElement>) {
     e.preventDefault();
-    const msg = e.currentTarget.elements.wsMsg.value ? e.currentTarget.elements.wsMsg.value : "";
-
-    sendMessage(msg);
+    console.log(wsMsg);
+    sendMessage(wsMsg);
   }
 
   return (
     <>
       <h1>Game: {gameCode}</h1>
       <h2>Send WS event:</h2>
-      <form onSubmit={sendEvent}>
-        <textarea rows={15} cols={80} name="wsMsg" id="wsMsg" defaultValue={"{\n\n}"} /><br/>
+      <form onSubmit={sendEvent} style={{display: "flex", alignItems: "center", flexDirection:"column"}}>
+        <AceEditor 
+          mode="json"
+          theme="github_dark"
+          name="wsMsg"
+          editorProps={{ $blockScrolling: true }}
+          value={wsMsg}
+          onChange={(value) => {
+            setWsMsg(value);
+          }}
+          height="300px"
+          />
         <button type="submit">Send</button>
       </form>
       <h2>Last messages:</h2>
