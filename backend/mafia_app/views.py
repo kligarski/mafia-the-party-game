@@ -42,6 +42,9 @@ def game(request, game_code):
         if len(game.players.filter(user__visible_username=request.user.visible_username)) > 0:
             messages.error(request, "Someone in this game has already chosen this username. Please change your username to join this game.")
             return HttpResponseRedirect(reverse("index"))
+        elif game.has_started:
+            messages.error(request, "This game has already started.")
+            return HttpResponseRedirect(reverse("index"))
         else:
             Player.objects.create(user=request.user, game=game, 
                                 role=Player.Role.VILLAGER)
