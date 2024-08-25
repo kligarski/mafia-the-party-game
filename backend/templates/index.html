@@ -9,7 +9,7 @@
       {% endfor %}
     {% endif %}
     <div class="flex-normal-box">
-      <form action="" method="post">
+      <form action="{% url 'join' %}" method="post">
         {% csrf_token %}
         <h2>Join a game...</h2>
         <div class="flex-center-box gap15">
@@ -20,7 +20,7 @@
     </div>
 
     <div class="flex-normal-box">
-      <form action="" method="post">
+      <form action="{% url 'create' %}" method="post">
         {% csrf_token %}
         <h2>...or create a new one!</h2>
         <div class="flex-center-box gap15">

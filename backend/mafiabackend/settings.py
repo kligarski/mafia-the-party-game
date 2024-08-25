@@ -139,3 +139,8 @@ AUTH_USER_MODEL = "mafia_app.User"
 LOGIN_URL = "/login"
 
 ASGI_APPLICATION = "mafiabackend.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer", # development-only
+    },
+}

@@ -1,7 +1,8 @@
 from django.db import models
+
 import random, string
 
-GAME_CODE_LENGTH = 6  
+GAME_CODE_LENGTH = 6
 
 def get_random_code():
     return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=GAME_CODE_LENGTH))
@@ -23,11 +24,7 @@ class Game(models.Model):
 
     @property
     def has_connected_players(self):
-        return len(self.players.filter(is_connected=True)) > 0
-
-    def update_user(self, user):
-        # TODO
-        raise NotImplementedError
+        return len(self.players.filter(is_connected=True)) > 0    
     
     def handle_action(self, action_type, action_data):
         self.current_state.handle_action(action_type, action_data)
