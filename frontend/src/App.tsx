@@ -12,7 +12,7 @@ function App() {
   );
   const socketUrl = "ws://127.0.0.1:8000/ws/game/" + gameCode + "/";
 
-  const [wsMsg, setWsMsg] = useState<string>("{\n  \"action\": \n  \"data\": \n}");
+  const [wsMsg, setWsMsg] = useState<string>("{\n  \"action\": ,\n  \"data\": {}\n}");
 
   const [messages, setMessages] = useState<any[]>([]);
 

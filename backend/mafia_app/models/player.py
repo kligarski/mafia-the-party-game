@@ -22,13 +22,7 @@ class Player(models.Model):
     view = models.JSONField(default=dict)
     
     def update_view(self):
-        async_to_sync(channel_layer.send)(self.channel_name, {
-            "type": "game.message",
-            "message": {
-                "action": "changeView",
-                "data": self.view
-            }
-        })
+        self.send("changeView", self.view)
     
     def update_state(self):
         state = {
@@ -43,10 +37,13 @@ class Player(models.Model):
             "cycle": self.game.cycle
         }
         
+        self.send("changePlayerState", state)
+    
+    def send(self, action, data):
         async_to_sync(channel_layer.send)(self.channel_name, {
             "type": "game.message",
             "message": {
-                "action": "changePlayerState",
-                "data": state
+                "action": action,
+                "data": data
             }
         })

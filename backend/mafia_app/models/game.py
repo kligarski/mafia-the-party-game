@@ -2,6 +2,8 @@ from django.db import models
 
 import random, string
 
+from . import Player
+
 GAME_CODE_LENGTH = 6
 
 def get_random_code():
@@ -29,3 +31,11 @@ class Game(models.Model):
     
     def handle_action(self, action_type, action_data):
         self.current_state.handle_action(action_type, action_data)
+        
+    def report_error_to_moderator(self, error_msg):
+        moderator = self.players.filter(role=Player.Role.MODERATOR)
+        if len(moderator) != 1:
+            return
+        moderator = moderator[0]
+        
+        moderator.send("error", error_msg)
