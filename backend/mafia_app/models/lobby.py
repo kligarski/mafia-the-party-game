@@ -28,10 +28,9 @@ class Lobby(GameState):
             player.update_view()
             
     def start_game(self):
-        moderator_present = len(self.game.players.filter(role=Player.Role.MODERATOR, is_connected=True)) == 1
         connected_players = self.game.players.filter(is_connected=True).exclude(role=Player.Role.MODERATOR)
         
-        if moderator_present and len(connected_players) >= 4:
+        if self.game.moderator.is_connected and len(connected_players) >= 4:
             self.game.has_started = True
             self.game.save()
             

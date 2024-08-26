@@ -24,7 +24,8 @@ class Game(models.Model):
     has_finished = models.BooleanField(default=False)
     cycle = models.IntegerField(default=0)
     current_state = models.OneToOneField("GameState", on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
-
+    moderator = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
+    
     @property
     def has_connected_players(self):
         return len(self.players.filter(is_connected=True)) > 0    
@@ -36,9 +37,7 @@ class Game(models.Model):
         self.current_state.handle_action(action_type, action_data)
         
     def report_error_to_moderator(self, error_msg):
-        moderator = self.players.filter(role=Player.Role.MODERATOR)
-        if len(moderator) != 1:
+        if self.moderator is None:
             return
-        moderator = moderator[0]
         
-        moderator.send("error", error_msg)
+        self.moderator.send("error", error_msg)

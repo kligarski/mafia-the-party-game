@@ -62,6 +62,7 @@ def create(request):
         
         new_game = Game.objects.create()
         new_player = Player.objects.create(user=request.user, game=new_game, role=Player.Role.MODERATOR)
+        new_game.moderator = new_player
         new_lobby = Lobby.objects.create(game=new_game)
         
         new_game.current_state = new_lobby

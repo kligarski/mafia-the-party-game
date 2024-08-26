@@ -61,15 +61,22 @@ class RoleReveal(GameState):
     objects = RoleRevealManager()
     
     def start(self):
-        # TODO
-        print(self.order_of_players)
+        view = {
+            "view": "eventInfo",
+            "data": {
+                "mode": "roleRevealInfo",
+                "data": {}
+            }
+        }
+        
         for player in self.game.players.all():
-            print(player.role)
+            player.view = view
+            player.save()
+            player.update_view()
         
-        
-        
-        # remember to also send role to playerState
-        pass
+        self.game.moderator.players_discovered.add(*self.game.regular_players())
+        self.game.moderator.save()
+        self.game.moderator.update_state()
     
     def handle_action(self, action_type, action_data):
         # TODO
