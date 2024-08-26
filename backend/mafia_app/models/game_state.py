@@ -6,3 +6,7 @@ class GameState(PolymorphicModel):
     
     def handle_action(self, action_type, action_data):
         raise NotImplementedError
+
+    def unknown_action(self, action_type, action_data):
+        print("Unknown action for this state:")
+        print(action_type, action_data)

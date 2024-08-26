@@ -29,6 +29,9 @@ class Game(models.Model):
     def has_connected_players(self):
         return len(self.players.filter(is_connected=True)) > 0    
     
+    def regular_players(self):
+        return self.players.exclude(role=Player.Role.MODERATOR)
+    
     def handle_action(self, action_type, action_data):
         self.current_state.handle_action(action_type, action_data)
         
