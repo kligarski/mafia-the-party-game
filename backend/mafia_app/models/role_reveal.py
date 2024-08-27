@@ -74,10 +74,104 @@ class RoleReveal(GameState):
             player.save()
             player.update_view()
         
+        self.game.moderator.refresh_from_db()
         self.game.moderator.players_discovered.add(*self.game.regular_players())
         self.game.moderator.save()
         self.game.moderator.update_state()
     
-    def handle_action(self, action_type, action_data):
+    def handle_action(self, player, action_type, action_data):
+        match action_type:
+            case "startRoleReveal" if self.current_state == self.State.EVENT_INFO:
+                if player.role == Player.Role.MODERATOR:
+                    self.next_person()
+                else:
+                    self.unauthorized_action(player, action_type, action_data)
+            
+            case _:
+                self.unknown_action(action_type, action_data)
+
+    def next_person(self):
+        if self.current_player < len(self.order_of_players) - 1:
+            self.current_player += 1
+            self.current_state = self.State.MODERATOR_INFO
+            self.save()
+            
+            self.next_moderator_info()
+        else:
+            self.current_state = self.State.EVENT_FINISHED
+            self.save()
+            
+            self.end()
+            
+    def end(self):
         # TODO
-        pass
+        raise NotImplementedError
+    
+    def next_moderator_info(self):
+        progress = self.get_current_progress()
+        wait_before = self.get_wait_view(True, progress)
+        wait_after = self.get_wait_view(False, progress)
+        
+        player_to_reveal = None
+        for index, player_id in enumerate(self.order_of_players):
+            player = self.game.players.get(id=player_id)
+            
+            if index < self.current_player:
+                player.view = wait_after
+            else:
+                player.view = wait_before
+            
+            if index == self.current_player:
+                player_to_reveal = player
+            
+            player.save()
+            player.update_view()
+        
+        self.game.moderator.view = self.get_moderator_info_view(player_to_reveal, progress)
+        self.game.moderator.save()
+        self.game.moderator.update_view()
+    
+    def get_current_progress(self):
+        return f"{self.current_player + 1}/{len(self.order_of_players)}"
+    
+    def get_wait_view(self, before: bool, progress):
+        return {
+            "view": "reveal",
+            "data": {
+                "mode": "playerWait" + ("Before" if before else "After"),
+                "data": {
+                    "progress": progress,
+                }
+            }
+        }
+    
+    def get_moderator_info_view(self, player, progress):
+        player_data = self.get_revealed_player_data(player)
+        return {
+            "view": "reveal",
+            "data": {
+                "mode": "moderatorInfo",
+                "data": {
+                    "progress": progress,
+                    "role": player_data["role"],
+                    "username": player_data["username"]
+                }    
+            }
+        }
+
+    def get_revealed_player_data(self, player):
+        return {
+            "role": player.role,
+            "username": player.user.visible_username
+        }
+    
+    
+    
+        
+        
+        
+        
+        
+            
+            
+        

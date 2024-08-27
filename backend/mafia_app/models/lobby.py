@@ -3,11 +3,16 @@ from .game_state import GameState
 from ..models import Player, RoleReveal
 
 class Lobby(GameState):
-    def handle_action(self, action_type, action_data):
-        if action_type == "startGame":
-            self.start_game()
-        else:
-            self.unknown_action(action_type, action_data)
+    def handle_action(self, player, action_type, action_data):
+        match action_type:
+            case "startGame":
+                if player.role == Player.Role.MODERATOR:
+                    self.start_game()
+                else:
+                    self.unauthorized_action(player, action_type, action_data)
+                    
+            case _:
+                self.unknown_action(action_type, action_data)
     
     def handle_players_change(self):
         connected_players = self.game.players.filter(is_connected=True)

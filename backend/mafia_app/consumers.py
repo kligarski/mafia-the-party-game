@@ -50,7 +50,8 @@ class GameConsumer(JsonWebsocketConsumer):
     
     def receive_json(self, content: dict):
         if "action" in content.keys() and "data" in content.keys():
-            self.game.handle_action(content["action"], content["data"])
+            self.game.refresh_from_db()
+            self.game.handle_action(self.player, content["action"], content["data"])
         else:
             print("Invalid message from client")
             print(content)
