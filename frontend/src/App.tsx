@@ -1,6 +1,6 @@
 import useWebSocket from "react-use-websocket";
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json"
 import "ace-builds/src-noconflict/theme-github_dark"
@@ -16,17 +16,16 @@ function App() {
 
   const [messages, setMessages] = useState<any[]>([]);
 
-  const { sendMessage, lastMessage, lastJsonMessage } = useWebSocket<any>(socketUrl, {
+  const { sendMessage } = useWebSocket<any>(socketUrl, {
     onOpen: () => console.log("opened ws connection"), // development-only
+    onMessage: addMessage,
     shouldReconnect: (_) => true, // development-only
   });
 
-  useEffect(() => {
-    if (lastMessage != null) {
-      console.log(lastJsonMessage);
-      setMessages([lastJsonMessage, ...messages])
-    }
-  }, [lastMessage]);
+  function addMessage(event: any) {
+    console.log(JSON.parse(event.data));
+    setMessages(prev => [JSON.parse(event.data), ...prev])
+  };
 
   interface FormElements extends HTMLFormControlsCollection {
     wsMsg: HTMLInputElement;

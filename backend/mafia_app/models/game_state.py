@@ -7,10 +7,7 @@ class GameState(PolymorphicModel):
     def handle_action(self, player, action_type, action_data):
         raise NotImplementedError
 
-    def unknown_action(self, action_type, action_data):
-        print("Unknown action for this state:")
-        print(action_type, action_data)
-        
-    def unauthorized_action(self, player, action_type, action_data):
-        print("Unauthorized action:")
+    def unknown_action(self, player, action_type, action_data):
+        print("Invalid action for this state and player:")
         print(player.user.username, action_type, action_data)
+        

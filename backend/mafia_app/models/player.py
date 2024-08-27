@@ -18,13 +18,15 @@ class Player(models.Model):
     is_alive = models.BooleanField(default=True)
     is_connected = models.BooleanField(default=True)
     channel_name = models.CharField(max_length=get_channel_layer().MAX_NAME_LENGTH, null=True, blank=True)
-    players_discovered = models.ManyToManyField("self")
+    players_discovered = models.ManyToManyField("self", symmetrical=False)
     view = models.JSONField(default=dict)
     
     def update_view(self):
+        print("updating view", self.view)
         self.send("changeView", self.view)
     
     def update_state(self):
+        print("updating state")
         state = {
             "id": self.id,
             "username": self.user.visible_username,
@@ -40,6 +42,7 @@ class Player(models.Model):
         self.send("changePlayerState", state)
     
     def send(self, action, data):
+        print(f"sending {action} {data}")
         async_to_sync(channel_layer.send)(self.channel_name, {
             "type": "game.message",
             "message": {
@@ -47,3 +50,4 @@ class Player(models.Model):
                 "data": data
             }
         })
+        print(f"sent {action} {data}")

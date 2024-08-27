@@ -81,14 +81,20 @@ class RoleReveal(GameState):
     
     def handle_action(self, player, action_type, action_data):
         match action_type:
-            case "startRoleReveal" if self.current_state == self.State.EVENT_INFO:
-                if player.role == Player.Role.MODERATOR:
-                    self.next_person()
-                else:
-                    self.unauthorized_action(player, action_type, action_data)
+            case "startRoleReveal" if (player.role == Player.Role.MODERATOR 
+                                       and self.current_state == self.State.EVENT_INFO):
+                self.next_person()
+            
+            case "revealToPlayer" if (player.role == Player.Role.MODERATOR
+                                      and self.current_state == self.State.MODERATOR_INFO):
+                self.reveal_to_player()
+            
+            case "revealContinue" if (player.id == self.order_of_players[self.current_player]
+                                      and self.current_state == self.State.MODERATOR_WAIT):
+                self.next_person()
             
             case _:
-                self.unknown_action(action_type, action_data)
+                self.unknown_action(player, action_type, action_data)
 
     def next_person(self):
         if self.current_player < len(self.order_of_players) - 1:
@@ -103,6 +109,38 @@ class RoleReveal(GameState):
             
             self.end()
             
+    def reveal_to_player(self):
+        print(self.current_state)
+        self.current_state = self.State.MODERATOR_WAIT 
+        self.save()
+        print(self.current_state)      
+        self.game.moderator.refresh_from_db()
+        
+        player_view = {
+            "view": "reveal",
+            "data": {
+                "mode": "playerReveal",
+                "data": {
+                    "progress": self.game.moderator.view["data"]["data"]["progress"],
+                    "role": self.game.moderator.view["data"]["data"]["role"]
+                }
+            }
+        }
+        player = self.game.players.get(id=self.order_of_players[self.current_player])
+        print(player.view)
+        player.view = player_view
+        player.players_discovered.add(player)
+        player.save()
+        print(player.view)
+        player.update_state()
+        player.update_view()
+        print(player.view)
+        print(player.view)
+        
+        self.game.moderator.view["data"]["mode"] = "moderatorWait"
+        self.game.moderator.save(update_fields=["view"])
+        self.game.moderator.update_view()
+    
     def end(self):
         # TODO
         raise NotImplementedError
