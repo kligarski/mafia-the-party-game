@@ -62,7 +62,7 @@ class MafiaVote(GameState):
         
         for player in self.game.regular_players():
             player.view = player_view
-            player.save()
+            player.save(update_fields=["view"])
             player.update_view()
         
         self.game.moderator.view = moderator_view
@@ -70,7 +70,6 @@ class MafiaVote(GameState):
         self.game.moderator.update_view()
     
     def handle_action(self, player, action_type, action_data):
-        print(self.current_state, player.role)
         match action_type:
             case "startMafiaVote" if (player.role == Player.Role.MODERATOR
                                       and self.current_state == self.State.MODERATOR_INFO):
@@ -114,6 +113,9 @@ class MafiaVote(GameState):
             if self.mafia_confirm[mafioso_id]:
                 return
             
+            if new_pick_id not in self.votes.keys():
+                return
+            
             if self.mafia_pick[mafioso_id] is not None:
                 previous_pick_id = self.mafia_pick[mafioso_id]
                 self.votes[previous_pick_id] -= 1
@@ -131,6 +133,9 @@ class MafiaVote(GameState):
         
         with transaction.atomic():
             if self.mafia_confirm[mafioso_id]:
+                return
+            
+            if unvoted_player_id not in self.votes.keys():
                 return
             
             if self.mafia_pick[mafioso_id] != unvoted_player_id:

@@ -1,5 +1,5 @@
 from django.db import models
-from . import GameState, Player, MafiaVote       
+from . import GameState, Player, MafiaVote, ProtectorEvent      
 
 class Night(GameState):
     class StateType(models.IntegerChoices):
@@ -15,6 +15,7 @@ class Night(GameState):
     
     # TODO: state-related data (mafia's pick, ...)
     mafia_pick = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
+    protector_pick = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     
     def start(self):
         self.game.cycle += 1
@@ -55,11 +56,21 @@ class Night(GameState):
         self.current_state = mafia_vote
         self.state_type = self.StateType.MAFIA_VOTE
         
-        self.save()
+        self.save(update_fields=["current_state", "state_type"])
         
         mafia_vote.start()
     
-    def mafia_vote_end(self):
+    def mafia_vote_end(self):            
+        protector_event = ProtectorEvent.objects.create_and_init(game=self.game, night_event=self)
+        
+        self.current_state = protector_event
+        self.state_type = self.StateType.PROTECTOR_PICK
+        
+        self.save(update_fields=["current_state", "state_type"])
+        
+        protector_event.start()
+        
+    def protector_event_end(self):
         # TODO
         raise NotImplementedError
         
