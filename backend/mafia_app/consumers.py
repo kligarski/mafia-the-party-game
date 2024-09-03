@@ -21,12 +21,12 @@ class GameConsumer(JsonWebsocketConsumer):
         if len(game_player) == 1:
             self.player = game_player[0]
             self.player.is_connected = True
-            self.player.save()
+            self.player.save(update_fields=["is_connected"])
         else:
             self.close(4004)
         
         self.player.channel_name = self.channel_name
-        self.player.save()
+        self.player.save(update_fields=["channel_name"])
         self.accept()
         
         print(f"{self.user.visible_username} joined {self.game_code}")
@@ -42,7 +42,9 @@ class GameConsumer(JsonWebsocketConsumer):
     def disconnect(self, code):
         self.player.is_connected = False
         self.player.channel_name = None
-        self.player.save()
+        self.player.save(update_fields=["is_connected", "channel_name"])
+        
+        self.game.refresh_from_db()
         
         if not self.game.has_started:
             lobby = Lobby.objects.get(game=self.game)
