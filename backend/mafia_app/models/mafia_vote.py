@@ -5,7 +5,7 @@ from . import GameState, Player
 class MafiaVoteManager(PolymorphicManager):
     def create_and_init(self, game, night_event):
         votes = dict()
-        for player in game.regular_players():
+        for player in game.regular_players().filter(is_alive=True):
             votes[str(player.id)] = 0
         
         no_mafiosi = 0

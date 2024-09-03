@@ -1,5 +1,5 @@
 from django.db import models
-from . import GameState, Player, MafiaVote, ProtectorEvent      
+from . import GameState, Player, MafiaVote, ProtectorEvent, SeerEvent    
 
 class Night(GameState):
     class StateType(models.IntegerChoices):
@@ -71,6 +71,16 @@ class Night(GameState):
         protector_event.start()
         
     def protector_event_end(self):
+        seer_event = SeerEvent.objects.create_and_init(game=self.game, night_event=self)
+        
+        self.current_state = seer_event
+        self.state_type = self.StateType.SEER_PICK
+        
+        self.save(update_fields=["current_state", "state_type"])
+        
+        seer_event.start()
+        
+    def seer_event_end(self):
         # TODO
         raise NotImplementedError
         

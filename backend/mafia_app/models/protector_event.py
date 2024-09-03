@@ -122,13 +122,15 @@ class ProtectorEvent(GameState):
         self.protector.update_view()
     
     def protector_pick(self, data):
-        self.current_state = self.State.MODERATOR_RESULT
-        self.save(update_fields=["current_state"])
-        
         try:
             picked_player = self.game.players.get(id=data["id"])
+            if not picked_player.is_alive or picked_player == self.game.moderator:
+                raise Player.DoesNotExist
         except Player.DoesNotExist:
             return
+        
+        self.current_state = self.State.MODERATOR_RESULT
+        self.save(update_fields=["current_state"])
 
         self.night_event.protector_pick = picked_player
         self.night_event.save(update_fields=["protector_pick"])
