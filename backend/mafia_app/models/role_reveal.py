@@ -2,7 +2,7 @@ from polymorphic.models import PolymorphicManager
 from django.db import models
 from random import shuffle
 
-from . import GameState, Player
+from . import GameState, Player, Night
 
 class RoleRevealManager(PolymorphicManager):
     def assign_mafia(self, players, no_mafia):        
@@ -110,40 +110,50 @@ class RoleReveal(GameState):
             self.end()
             
     def reveal_to_player(self):
-        print(self.current_state)
         self.current_state = self.State.MODERATOR_WAIT 
         self.save()
-        print(self.current_state)      
+        
         self.game.moderator.refresh_from_db()
+        
+        progress = self.game.moderator.view["data"]["data"]["progress"]
+        role = self.game.moderator.view["data"]["data"]["role"]
         
         player_view = {
             "view": "reveal",
             "data": {
                 "mode": "playerReveal",
                 "data": {
-                    "progress": self.game.moderator.view["data"]["data"]["progress"],
-                    "role": self.game.moderator.view["data"]["data"]["role"]
+                    "progress": progress,
+                    "role": role
                 }
             }
         }
+        
         player = self.game.players.get(id=self.order_of_players[self.current_player])
-        print(player.view)
+        
         player.view = player_view
-        player.players_discovered.add(player)
+        if role == "mafia":
+            player.players_discovered.add(*self.game.players.filter(role=Player.Role.MAFIA))
+        else:
+            player.players_discovered.add(player)
         player.save()
-        print(player.view)
+        
         player.update_state()
         player.update_view()
-        print(player.view)
-        print(player.view)
         
         self.game.moderator.view["data"]["mode"] = "moderatorWait"
         self.game.moderator.save(update_fields=["view"])
         self.game.moderator.update_view()
     
     def end(self):
-        # TODO
-        raise NotImplementedError
+        self.game.refresh_from_db()
+        
+        night = Night.objects.create(game=self.game)
+        self.game.current_state = night
+        
+        self.game.save()
+        
+        night.start()
     
     def next_moderator_info(self):
         progress = self.get_current_progress()
