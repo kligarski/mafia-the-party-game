@@ -3,7 +3,7 @@ from django.db import models, transaction
 from . import GameState, Player
 
 class MafiaVoteManager(PolymorphicManager):
-    def create_and_init(self, game):
+    def create_and_init(self, game, night_event):
         votes = dict()
         for player in game.regular_players():
             votes[str(player.id)] = 0
@@ -16,7 +16,7 @@ class MafiaVoteManager(PolymorphicManager):
             mafia_pick[str(mafioso.id)] = None
             mafia_confirm[str(mafioso.id)] = False
         
-        mafia_vote = self.create(game=game, votes=votes, no_mafiosi=no_mafiosi, 
+        mafia_vote = self.create(game=game, night_event=night_event, votes=votes, no_mafiosi=no_mafiosi, 
                                  mafia_pick=mafia_pick, mafia_confirm=mafia_confirm)
         return mafia_vote
 
@@ -27,13 +27,13 @@ class MafiaVote(GameState):
         MODERATOR_RESULT = 3
         EVENT_FINISHED = 4
     
+    night_event = models.ForeignKey("Night", on_delete=models.CASCADE, related_name="+")
     current_state = models.IntegerField(choices=State, default=State.MODERATOR_INFO)
     votes = models.JSONField()
     mafia_pick = models.JSONField()
     mafia_confirm = models.JSONField()
     no_mafiosi = models.IntegerField()
     no_mafiosi_confirmed = models.IntegerField(default=0)
-    vote_result = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     
     objects = MafiaVoteManager()
     
@@ -70,22 +70,31 @@ class MafiaVote(GameState):
         self.game.moderator.update_view()
     
     def handle_action(self, player, action_type, action_data):
+        print(self.current_state, player.role)
         match action_type:
             case "startMafiaVote" if (player.role == Player.Role.MODERATOR
                                       and self.current_state == self.State.MODERATOR_INFO):
                 self.start_mafia_vote()
             
-            case "mafiaVote" if player.role == Player.Role.MAFIA:
+            case "mafiaVote" if (player.role == Player.Role.MAFIA
+                                 and self.current_state == self.State.VOTE):
                 self.mafia_vote(player, action_data)
                 
-            case "mafiaUnvote" if player.role == Player.Role.MAFIA:
+            case "mafiaUnvote" if (player.role == Player.Role.MAFIA
+                                 and self.current_state == self.State.VOTE):
                 self.mafia_unvote(player, action_data)
                 
-            case "mafiaConfirm" if player.role == Player.Role.MAFIA:
+            case "mafiaConfirm" if (player.role == Player.Role.MAFIA
+                                 and self.current_state == self.State.VOTE):
                 self.mafia_do_confirm(player)
             
-            case "mafiaCancel" if player.role == Player.Role.MAFIA:
+            case "mafiaCancel" if (player.role == Player.Role.MAFIA
+                                 and self.current_state == self.State.VOTE):
                 self.mafia_cancel(player)
+                
+            case "endMafiaVote" if (player.role == Player.Role.MODERATOR 
+                                    and self.current_state == self.State.MODERATOR_RESULT):
+                self.end()
             
             case _:
                 self.unknown_action(player, action_type, action_data)
@@ -125,7 +134,8 @@ class MafiaVote(GameState):
                 return
             
             if self.mafia_pick[mafioso_id] != unvoted_player_id:
-                print(f"Integrity error: pick - {self.mafia_pick[mafioso_id]}, unvote - {unvoted_player_id}")
+                print(f"Integrity error: pick - {self.mafia_pick[mafioso_id]}, " 
+                      f"unvote - {unvoted_player_id}")
                 return
             
             self.mafia_pick[mafioso_id] = None
@@ -168,10 +178,11 @@ class MafiaVote(GameState):
             self.update_mafioso_vote_view(mafioso)
     
     def end_vote_and_show_results(self, picked_player_id):
-        self.vote_result = Player.objects.get(id=picked_player_id)
         self.current_state = self.State.MODERATOR_RESULT
+        self.save(update_fields=["current_state"])
         
-        self.save(update_fields=["vote_result", "current_state"])
+        self.night_event.mafia_pick = Player.objects.get(id=picked_player_id)
+        self.night_event.save(update_fields=["mafia_pick"])
         
         moderator_view = {
             "view": "mafiaVote",
@@ -179,8 +190,8 @@ class MafiaVote(GameState):
                 "mode": "moderatorResult",
                 "data": {
                     "pick": {
-                        "id": self.vote_result.id,
-                        "username": self.vote_result.user.visible_username
+                        "id": self.night_event.mafia_pick.id,
+                        "username": self.night_event.mafia_pick.user.visible_username
                     }
                 }
             }
@@ -199,6 +210,12 @@ class MafiaVote(GameState):
             mafioso.view = mafia_view
             mafioso.save(update_fields=["view"])
             mafioso.update_view()
+    
+    def end(self):
+        self.current_state = self.State.EVENT_FINISHED
+        self.save(update_fields=["current_state"])
+        
+        self.night_event.mafia_vote_end()
     
     def update_moderator_and_mafia_vote_view(self):
         self.game.moderator.view = self.get_moderator_vote_view()

@@ -1,4 +1,3 @@
-from polymorphic.models import PolymorphicManager
 from django.db import models
 from . import GameState, Player, MafiaVote       
 
@@ -51,7 +50,7 @@ class Night(GameState):
                 self.unknown_action(player, action_type, action_data)
     
     def start_night(self):
-        mafia_vote = MafiaVote.objects.create_and_init(game=self.game)
+        mafia_vote = MafiaVote.objects.create_and_init(game=self.game, night_event=self)
         
         self.current_state = mafia_vote
         self.state_type = self.StateType.MAFIA_VOTE
@@ -59,5 +58,9 @@ class Night(GameState):
         self.save()
         
         mafia_vote.start()
+    
+    def mafia_vote_end(self):
+        # TODO
+        raise NotImplementedError
         
     
