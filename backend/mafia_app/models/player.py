@@ -34,6 +34,7 @@ class Player(models.Model):
                 "username": player.user.visible_username,
                 "role": player.role
             } for player in self.players_discovered.all()],
+            "alive": self.is_alive,
             "cycle": self.game.cycle
         }
         

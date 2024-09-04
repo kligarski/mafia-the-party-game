@@ -26,6 +26,11 @@ class Game(models.Model):
     current_state = models.OneToOneField("GameState", on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     moderator = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True) 
     
+    class GameStatus(models.IntegerChoices):
+        CONTINUE = 1
+        MAFIA_WINS = 2
+        VILLAGE_WINS = 3
+    
     def regular_players(self):
         return self.players.exclude(role=Player.Role.MODERATOR)
     

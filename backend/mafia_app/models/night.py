@@ -1,5 +1,5 @@
 from django.db import models
-from . import GameState, Player, MafiaVote, ProtectorEvent, SeerEvent    
+from . import GameState, Player, MafiaVote, ProtectorEvent, SeerEvent, Day    
 
 class Night(GameState):
     class StateType(models.IntegerChoices):
@@ -13,7 +13,6 @@ class Night(GameState):
     current_state = models.OneToOneField(GameState, on_delete=models.SET_NULL, 
                                          related_name="+", null=True, blank=True)
     
-    # TODO: state-related data (mafia's pick, ...)
     mafia_pick = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     protector_pick = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     
@@ -31,7 +30,7 @@ class Night(GameState):
         
         for player in self.game.players.all():
             player.view = view
-            player.save()
+            player.save(update_fields=["view"])
             player.update_view()
             player.update_state()
         
@@ -81,7 +80,19 @@ class Night(GameState):
         seer_event.start()
         
     def seer_event_end(self):
-        # TODO
-        raise NotImplementedError
+        self.end()
+        
+    def end(self):
+        self.state_type = self.StateType.EVENT_FINISHED
+        self.save(update_fields=["state_type"])
+        
+        self.game.refresh_from_db()
+        
+        day = Day.objects.create(game=self.game, previous_night=self)
+        self.game.current_state = day
+        
+        self.game.save()
+        
+        day.start()
         
     
