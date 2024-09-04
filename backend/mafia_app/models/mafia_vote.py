@@ -260,7 +260,7 @@ class MafiaVote(GameState):
                             "username": player.user.visible_username,
                             "votes": self.votes[str(player.id)]
                         }
-                        for player in self.game.regular_players()
+                        for player in self.game.regular_players().filter(is_alive=True)
                     ]
                 }
             }
@@ -281,7 +281,7 @@ class MafiaVote(GameState):
                             "votes": self.votes[str(player.id)],
                             "chosen": self.mafia_pick[str(mafioso.id)] == str(player.id)
                         }
-                        for player in self.game.regular_players()
+                        for player in self.game.regular_players().filter(is_alive=True)
                     ]
                 }
             }

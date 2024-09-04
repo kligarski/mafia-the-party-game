@@ -1,6 +1,6 @@
 from django.db import models
 from enum import Enum
-from . import GameState, Player, NightOutcome, Game, End
+from . import GameState, Player, NightOutcome, Game, End, Discussion, DayVote
 
 class Day(GameState):
     class StateType(models.IntegerChoices):
@@ -66,8 +66,44 @@ class Day(GameState):
                 self.end_game(status)
     
     def continue_game(self):
-        # TODO
-        raise NotImplementedError
+        discussion = Discussion.objects.create(game=self.game, day_event=self)
+        
+        self.current_state = discussion
+        self.state_type = self.StateType.DISCUSSION
+        
+        self.save(update_fields=["current_state", "state_type"])
+        
+        discussion.start()
+    
+    def discussion_end(self):
+        day_vote = DayVote.objects.create_and_init(game=self.game, day_event=self)
+        
+        self.current_state = day_vote
+        self.state_type = self.StateType.VOTE
+        
+        self.save(update_fields=["current_state", "state_type"])
+        
+        day_vote.start()
+    
+    def day_vote_end(self):
+        status = self.check_game_status()
+        match status:
+            case Game.GameStatus.CONTINUE:
+                self.end_event()
+            
+            case Game.GameStatus.MAFIA_WINS | Game.GameStatus.VILLAGE_WINS:
+                self.end_game(status)
+                
+    def end_event(self):
+        from mafia_app.models import Night
+        self.game.refresh_from_db()
+        
+        night = Night.objects.create(game=self.game)
+        self.game.current_state = night
+        
+        self.game.save()
+        
+        night.start()
     
     def end_game(self, status):
         self.state_type = self.StateType.EVENT_FINISHED

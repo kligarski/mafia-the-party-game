@@ -27,7 +27,9 @@ class End(GameState):
                     "players": [
                         {
                             "id": player.id,
-                            "username": player.user.visible_username
+                            "username": player.user.visible_username,
+                            "role": player.role,
+                            "alive": player.is_alive
                         }
                         for player in self.game.regular_players()
                     ]

@@ -2,6 +2,8 @@ from .user import User
 from .player import Player
 from .game import Game
 from .game_state import GameState
+from .day_vote import DayVote
+from .discussion import Discussion
 from .end import End
 from .night_outcome import NightOutcome
 from .day import Day
