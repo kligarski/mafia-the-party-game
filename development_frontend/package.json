@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --emptyOutDir --base /static/frontend/dev --outDir ../backend/staticfiles/frontend/dev",
-    "build": "vite build --base /static/frontend/prod --outDir ../dj-backend/staticfiles/frontend/prod"
+    "build": "vite build --base /static/frontend/prod --outDir ../backend/staticfiles/frontend/prod"
   },
   "dependencies": {
     "react": "^18.3.1",

@@ -1,15 +1,15 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block head %}
-  {% for css_path in reactjs_assets_css_paths %}
+  {% for css_path in frontend_assets_css_paths %}
     <link rel="stylesheet" href="{% static css_path %}" />
   {% endfor %}
 {% endblock %}
 
 {% block body %}
   {{ game_code|json_script:'game-code' }}
-  <div id="root"></div>
-  {% for js_path in reactjs_assets_js_paths %}
+  <div id="app"></div>
+  {% for js_path in frontend_assets_js_paths %}
     <script src="{% static js_path %}"></script>
   {% endfor %}
 {% endblock %}

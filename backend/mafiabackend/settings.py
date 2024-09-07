@@ -66,7 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "mafiabackend.context_processors.reactjs_assets_paths",
+                "mafiabackend.context_processors.frontend_assets_paths",
             ],
         },
     },
@@ -122,9 +122,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_BASE = BASE_DIR / "staticfiles"
-REACT_JS_BUILD_DIR = STATICFILES_BASE / "frontend" / "prod" 
+FRONTEND_BUILD_DIR = STATICFILES_BASE / "frontend" / "prod" 
 if DEBUG:
-    REACT_JS_BUILD_DIR = STATICFILES_BASE / "frontend" / "dev"
+    FRONTEND_BUILD_DIR = STATICFILES_BASE / "frontend" / "dev"
 STATICFILES_DIRS = [
     STATICFILES_BASE,
 ]
