@@ -20,7 +20,4 @@
 </main>
 
 <style>
-  div {
-    font-size: 3rem;
-  }
 </style>

@@ -11,8 +11,21 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}" />
   </head>
   <body>
-    {% block body %}
+    <header>
+      <span class="logo-main">Mafia:</span>
+      <span class="logo-desc">The Party Game</span>
+    </header>
 
-    {% endblock %}
+    <main>
+      {% block body %}
+
+      {% endblock %}
+    </main>
+
+    <footer>
+      {% block footer %}
+
+      {% endblock %}
+    </footer>
   </body>
 </html>

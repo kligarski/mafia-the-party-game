@@ -1,11 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --background: #393646;
+  --main1: #4F4557;
+  --main2: #6D5D6E;
+  --main2-hover: #5b4b5d;
+  --main3: #F4EEE0;
+  --main3-hover: #ebe5d7;
+  --main3-active: #dbd5c9;
+  --green: #9EB384;
+  --green-hover: #8a9e71;
+  --green-active: #73855c;
+  --red: #A54848;
+  --red-hover: #8e3838;
+  --red-active: #772b2b;
+  --blue: #96B6C5;
+  --yellow: #E7E09A;
+
+
+  font-family: "Kanit", sans-serif;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: var(--main3);
+  background-color: var(--background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,63 +36,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  height: 100dvh;
+
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+header, main, footer {
+  width: min(95%, 800px);
+}
+
+header, footer {
+  flex-shrink: 0;
+}
+
+main {
+  flex-grow: 1;
+}
+
+header {
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 9vw, 4rem);
   text-align: center;
 }
 
-a {
+.logo-main {
+  font-weight: 700;
+}
+
+.logo-desc {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  font-style: italic;
 }

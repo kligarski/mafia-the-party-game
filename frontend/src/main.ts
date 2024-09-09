@@ -1,4 +1,3 @@
-import './app.css'
 import App from './App.svelte'
 
 const gameCode = document.getElementById("game-code")?.textContent;
