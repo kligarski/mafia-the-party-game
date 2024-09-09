@@ -1,11 +1,22 @@
 <script lang="ts">
-  let name = "world!!";
+  import { onMount } from "svelte";
+  import { connect, playerState, view } from "./stores";
+
+  export let gameCode: string | undefined;
+
+  onMount(() => {
+    if (gameCode !== undefined) {
+      connect(gameCode);
+    }
+  })
 </script>
 
 <main>
   <div>
-    Hello, {name}!
+    Hello, world!
   </div>
+  <p>{JSON.stringify($view, null, 2)}</p>
+  <p>{JSON.stringify($playerState, null, 2)}</p>
 </main>
 
 <style>
