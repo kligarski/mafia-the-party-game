@@ -1,10 +1,17 @@
-<script>
+<script type="ts">
   import GameCodePill from "../components/GameCodePill.svelte";
   import PlayerCountPill from "../components/PlayerCountPill.svelte";
-  import { view } from "../../stores";
+  import { view, sendMessage, playerState } from "../../stores";
   import PlayerList from "../components/PlayerList.svelte";
 
   $: playerCount = $view.data.players.length;
+
+  function gameStart() {
+    sendMessage({
+      action: "startGame",
+      data: {},
+    });
+  }
 </script>
 
 <div class="lobby">
@@ -19,13 +26,17 @@
     </div>
     <PlayerList players={$view.data.players} />
   </div>
-  <button class="main-button">Let the night begin!</button>
+  {#if $playerState.role === "moderator"}
+    <button class="main-button" on:click={gameStart}
+      >Let the night begin!</button
+    >
+  {/if}
 </div>
 
 <style>
   .lobby {
     margin-top: 2em;
-    gap: 1em;
+    gap: 1.5em;
 
     display: flex;
     flex-direction: column;

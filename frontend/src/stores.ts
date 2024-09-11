@@ -79,10 +79,12 @@ function createGameCodeStore() {
 
 export const gameCode = createGameCodeStore();
 
+let ws: WebSocket | undefined;
+
 export const connect = function(gameCode: string) {
     setGameCode(gameCode);
 
-    const ws = new WebSocket(WEBSOCKET_URL + gameCode + "/");
+    ws = new WebSocket(WEBSOCKET_URL + gameCode + "/");
 
     ws.onopen = function (event) {
         console.log("Established WebSocket connection with the game server.");
@@ -115,4 +117,15 @@ export const connect = function(gameCode: string) {
     }
 }
 
+export type Message = {
+    action: string,
+    data: any
+}
 
+export let sendMessage = function(data: Message) {
+    if (ws !== undefined) {
+        ws.send(JSON.stringify(data));
+    } else {
+        console.warn("Trying to send a message but there is no WebSocket connection!");
+    }
+}
