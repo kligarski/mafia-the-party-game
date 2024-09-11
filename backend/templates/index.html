@@ -1,36 +1,31 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block body %}
-  <div id="root">
-    <h1>Main page</h1>
+  <div class="main-page">
     {% if messages %}
       {% for message in messages %}
         <div class="error-message">{{ message }}</div>
       {% endfor %}
     {% endif %}
-    <div class="flex-normal-box">
-      <form action="{% url 'join' %}" method="post">
-        {% csrf_token %}
-        <h2>Join a game...</h2>
-        <div class="flex-center-box gap15">
-          <input required class="text-input" type="text" name="game_code" placeholder="Enter game code..." autocomplete="off" maxlength="6" minlength="6" />
-          <input class="button" type="submit" value="Join" />
-        </div>
-      </form>
-    </div>
 
-    <div class="flex-normal-box">
-      <form action="{% url 'create' %}" method="post">
-        {% csrf_token %}
-        <h2>...or create a new one!</h2>
-        <div class="flex-center-box gap15">
-          <input class="button" type="submit" value="Create new game" />
-        </div>
-      </form>
-    </div>
+    <form action="{% url 'join' %}" method="post">
+      {% csrf_token %}
+      <div class="form-header">
+        <h1>Join a game...</h1>
+      </div>
+      <input required class="text-input" type="text" name="game_code" placeholder="Enter game code..." autocomplete="off" maxlength="6" minlength="6" />
+      <button class="main-button" type="submit">Join</button>
+    </form>
 
-    <div class="footer">
-      <a class="footer-link" href="{% url 'logout' %}">Change username (currently: {{ request.user.visible_username }})</a>
-    </div>
+    <form action="{% url 'create' %}" method="post">
+      {% csrf_token %}
+      <div class="form-header">
+        <h1>...or create a new one!</h1>
+      </div>
+      <button class="main-button" type="submit">Create new game</button>
+    </form>
   </div>
+{% endblock %}
+{% block footer %}
+  <a href="{% url 'logout' %}"><span class="footer-link-span">Change username</span> <span class="footer-link-span">(currently: {{ request.user.visible_username }})</span></a>
 {% endblock %}

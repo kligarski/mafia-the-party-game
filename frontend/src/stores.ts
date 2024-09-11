@@ -94,6 +94,8 @@ export const connect = function(gameCode: string) {
     ws.onclose = function(event) {
         console.log("WebSocket connection closed.")
         console.log(event);
+
+        // TODO: reconnect
     }
 }
 

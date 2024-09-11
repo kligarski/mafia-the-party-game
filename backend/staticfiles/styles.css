@@ -48,9 +48,15 @@ body {
   font-size: clamp(1.1rem, 4vw, 1.4rem);
 }
 
+::selection {
+  background: rgba(244, 238, 224, 0.2);
+}
+
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
+
+
 
 header, main, footer {
   width: min(95%, 800px);
@@ -62,6 +68,49 @@ header, footer {
 
 main {
   flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+footer > a {
+  color: var(--main2);
+  text-decoration: none;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  text-align: center;
+}
+
+footer > a:visited {
+  color: var(--main2);
+}
+
+footer > a:hover {
+  color: var(--main2-hover);
+}
+
+footer > a:active {
+  color: var(--main1);
+}
+
+footer > a:focus-visible {
+  outline: none;
+  text-decoration: underline;
+}
+
+.footer-link-span {
+  white-space: nowrap;
 }
 
 header {
@@ -72,6 +121,20 @@ header {
   text-align: center;
 }
 
+
+
+h1 {
+  font-weight: 400;
+  font-size: clamp(1.9rem, 7vw, 2.5rem);
+}
+
+h2 {
+  font-weight: 400;
+  font-size: clamp(1.4rem, 5vw, 2.1rem);
+}
+
+
+
 .logo-main {
   font-weight: 700;
 }
@@ -79,4 +142,104 @@ header {
 .logo-desc {
   font-weight: 500;
   font-style: italic;
+}
+
+
+
+.main-button {
+  margin: 0.4rem;
+  padding: 0.3em 1.5em;
+  min-width: 5em;
+
+  background-color: var(--main3);
+  border-radius: 2rem;
+  border: none;
+
+  font-family: "Kanit", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--main1);
+  font-size: min(1.3em, 1.6rem);
+}
+
+.main-button:hover {
+  background-color: var(--main3-hover);
+}
+
+.main-button:active {
+  background-color: var(--main3-active);
+}
+
+.main-button:focus-visible {
+  outline: 0.1rem solid var(--main3);
+  outline-offset: 0.1rem;
+}
+
+.main-button-sm {
+  min-width: none;
+}
+
+
+
+input[type="text"] {
+  margin: 0.4rem;
+  padding: 0.8em 1.5em;
+
+  background-color: var(--main1);
+  border-radius: 2rem;
+  border: none;
+  outline: 0.1rem solid var(--background);
+  outline-offset: 0.1rem;
+
+  font-family: "Kanit", sans-serif;
+  font-weight: 600;
+  color: var(--main3);
+  font-size: min(1em, 1.3rem);
+}
+
+input[type="text"]:focus-visible {
+  outline: 0.1rem solid var(--main2);
+}
+
+input[type="text"]:hover {
+  outline: 0.1rem solid var(--main2);
+}
+
+input[type="text"]::placeholder {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--main3);
+  opacity: 0.3;
+}
+
+
+
+.login-form {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-page {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.main-page > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-header {
+  width: 100%;
+  margin-bottom: 0.8rem;
 }
