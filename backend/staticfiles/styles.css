@@ -36,6 +36,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 body {
   margin: 0;
 
@@ -73,6 +81,16 @@ main {
   flex-direction: column;
 
   padding: 1rem;
+  min-height: 0;
+}
+
+#app {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
 }
 
 footer {
@@ -80,9 +98,6 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  padding: 1rem;
-  padding-bottom: 1.5rem;
 }
 
 footer > a {
@@ -90,6 +105,9 @@ footer > a {
   text-decoration: none;
   font-size: clamp(0.9rem, 3vw, 1.2rem);
   text-align: center;
+
+  margin: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 footer > a:visited {
@@ -114,8 +132,7 @@ footer > a:focus-visible {
 }
 
 header {
-  margin-top: 0.5em;
-  margin-bottom: 0.2em;
+  margin-top: min(1em, 2rem);
   font-family: "Playfair Display", serif;
   font-size: clamp(1.8rem, 9vw, 4rem);
   text-align: center;
@@ -125,7 +142,7 @@ header {
 
 h1 {
   font-weight: 400;
-  font-size: clamp(1.9rem, 7vw, 2.5rem);
+  font-size: clamp(1.6rem, 7vw, 2.5rem);
 }
 
 h2 {
@@ -148,7 +165,7 @@ h2 {
 
 .main-button {
   margin: 0.4rem;
-  padding: 0.3em 1.5em;
+  padding: 0.3em 1.3em;
   min-width: 5em;
 
   background-color: var(--main3);
@@ -242,4 +259,28 @@ input[type="text"]::placeholder {
 .form-header {
   width: 100%;
   margin-bottom: 0.8rem;
+}
+
+
+
+.game-lobby {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  background-color: var(--main1);
+  border: none;
+  border-radius: 2rem;
 }

@@ -3,12 +3,12 @@ import { writable } from "svelte/store";
 const WEBSOCKET_URL = "ws://127.0.0.1:8000/ws/game/";
 
 type WebSocketMessage = {
-    action: String,
+    action: string,
     data: any
 }
 
 export type View = {
-    view: String,
+    view: string,
     data: any
 }
 
@@ -30,18 +30,18 @@ function createViewStore() {
 export const view = createViewStore();
 
 export type Player = {
-    id: Number,
-    username: String,
-    role?: String
+    id: number,
+    username: string,
+    role?: string
 }
 
 export type PlayerState = {
-    id: Number,
-    username: String,
-    role: String,
+    id: number,
+    username: string,
+    role: string,
     playersDiscovered: Player[],
     alive: boolean,
-    cycle: Number
+    cycle: number
 }
 
 let setPlayerState: (value: PlayerState) => void;
@@ -52,7 +52,7 @@ function createPlayerStateStore() {
         username: "username",
         role: "role",
         playersDiscovered: [],
-        alive: false,
+        alive: true,
         cycle: -1
     });
 
@@ -65,7 +65,23 @@ function createPlayerStateStore() {
 
 export const playerState = createPlayerStateStore();
 
+let setGameCode: (value: string) => void;
+
+function createGameCodeStore() {
+    const { subscribe, set } = writable<string>("");
+
+    setGameCode = set;
+
+    return {
+        subscribe
+    }
+}
+
+export const gameCode = createGameCodeStore();
+
 export const connect = function(gameCode: string) {
+    setGameCode(gameCode);
+
     const ws = new WebSocket(WEBSOCKET_URL + gameCode + "/");
 
     ws.onopen = function (event) {

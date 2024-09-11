@@ -1,6 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { connect, playerState, view } from "./stores";
+  import { views } from "./viewsMapping";
+
+  import Error from "./lib/views/Error.svelte";
 
   export let gameCode: string | undefined;
 
@@ -8,16 +11,21 @@
     if (gameCode !== undefined) {
       connect(gameCode);
     }
-  })
+  });
+
+  let x = $view.view;
 </script>
 
-<main>
-  <div>
-    Hello, world!
-  </div>
-  <p>{JSON.stringify($view, null, 2)}</p>
-  <p>{JSON.stringify($playerState, null, 2)}</p>
-</main>
+{#if $playerState.alive}
+  {#if $view.view in $views}
+    <svelte:component this={$views[$view.view]} />
+  {:else}
+    <Error />
+  {/if}
+{:else}
+  <!-- TODO -->
+  <Error />
+{/if}
 
 <style>
 </style>

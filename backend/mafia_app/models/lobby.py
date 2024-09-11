@@ -16,13 +16,11 @@ class Lobby(GameState):
         
         view = {
             "view": "lobby",
-            "players": [
-                {
-                    "id": player.id,
-                    "username": player.user.visible_username,
-                    "isModerator": player.role == Player.Role.MODERATOR
-                } for player in connected_players
-            ]
+            "data": {
+                "players": [
+                    self.get_player_data(player) for player in connected_players
+                ]   
+            }
         }
         
         for player in connected_players:
@@ -47,3 +45,14 @@ class Lobby(GameState):
         else:
             self.game.report_error_to_moderator(("There are not enough players to start the game "
                                                 "(at least 4 regular players are required)."))
+            
+    def get_player_data(self, player: Player):
+        data = {
+            "id": player.id,
+            "username": player.user.visible_username
+        }
+        
+        if player.role:
+            data["role"] = player.role
+            
+        return data

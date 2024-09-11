@@ -1,0 +1,81 @@
+<script lang="ts">
+  import { playerState, type Player } from "../../stores";
+  import { roles } from "../../roles";
+  import Icon from "../icons/Icon.svelte";
+
+  export let player: Player;
+
+  if (player.role === undefined) {
+    console.log(player);
+    let playerDataFromState = $playerState.playersDiscovered.find(
+      (p) => p.id == player.id && p.role !== undefined
+    );
+
+    if (playerDataFromState) {
+      player.role = playerDataFromState.role;
+    }
+  }
+
+  $: color =
+    player.id === $playerState.id ? "var(--main3)" : "var(--background)";
+</script>
+
+<div class="pill">
+  <div class="player-data" style:color>
+    <Icon
+      name={player.role === undefined ? "person" : roles[player.role].icon}
+    />
+    <span class="username">
+      {player.username}
+    </span>
+  </div>
+  <div class="extra"></div>
+</div>
+
+<style>
+  .player-data,
+  .extra {
+    display: flex;
+    align-items: center;
+
+    gap: 0.6em;
+  }
+
+  .player-data {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    width: calc(fit-content);
+  }
+
+  .username {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    width: calc(fit-content);
+  }
+
+  .pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 0.8em;
+
+    padding: 0.5em 0.8em;
+
+    width: 100%;
+
+    background-color: var(--main2);
+    border-radius: 2rem;
+    border: none;
+
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-size: 1.3em;
+
+    color: var(--main3);
+  }
+</style>
