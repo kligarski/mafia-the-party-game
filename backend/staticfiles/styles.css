@@ -264,7 +264,7 @@ input[type="text"]::placeholder {
 
 .game {
   margin-top: min(1em, 2rem);
-  padding: 1em 0.5em;
+  padding: 1.1em 1.4em;
 
   gap: 1.5em;
 

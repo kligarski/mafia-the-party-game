@@ -6,7 +6,7 @@
 <div class="outer">
   <div class="content">
     <h1>Error</h1>
-    <p>Unknown view.</p>
+    <slot>Unknown view.</slot>
     <p>{JSON.stringify($view, null, 2)}</p>
     <p>{JSON.stringify($playerState, null, 2)}</p>
   </div>

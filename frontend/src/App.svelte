@@ -17,8 +17,8 @@
 </script>
 
 {#if $playerState.alive}
-  {#if $view.view in $views}
-    <svelte:component this={$views[$view.view]} />
+  {#if $view.view in views}
+    <svelte:component this={views[$view.view]} />
   {:else}
     <Error />
   {/if}

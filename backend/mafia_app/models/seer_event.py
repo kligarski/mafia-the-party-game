@@ -151,6 +151,9 @@ class SeerEvent(GameState):
             }
         }
         
+        
+        # TODO: reveal only team (mafia vs village), instead of role (e.g. protector or seer!)
+        # possibly use additional data for the relation that will make clear whether player knows the team or the role of another player.
         seer_view = {
             "view": "seerPick",
             "data": {

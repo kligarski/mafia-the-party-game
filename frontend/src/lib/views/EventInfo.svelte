@@ -2,6 +2,7 @@
   import { view, playerState, sendMessage } from "../../stores";
   import { eventData } from "../../eventData";
   import Icon from "../icons/Icon.svelte";
+  import BigIcon from "../components/BigIcon.svelte";
 
   const { icon, header, info, buttonAction } = eventData[$view.data.mode];
 
@@ -15,9 +16,7 @@
 
 <div class="game space-between">
   <div class="content">
-    <div class="icon-box">
-      <Icon name={icon} />
-    </div>
+    <BigIcon name={icon} color="--var(main2)" />
     <h1 class="header">{header}</h1>
     <div class="info">
       {@html info}
@@ -41,15 +40,6 @@
 
   .header {
     font-size: 2em;
-  }
-
-  .icon-box {
-    flex-shrink: 1;
-    font-size: min(8em, 20vh);
-    color: var(--main2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .info {

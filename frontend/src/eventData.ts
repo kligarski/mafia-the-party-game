@@ -1,3 +1,5 @@
+import RoleRevealModeratorInfo from "./lib/views/modes/role_reveal/RoleRevealModeratorInfo.svelte"
+
 export const eventData: any = {
   roleRevealInfo: {
     icon: "person_search",
@@ -6,4 +8,12 @@ export const eventData: any = {
     `,
     buttonAction: "startRoleReveal"
   }
+}
+
+export const roleRevealModes: any = {
+  moderatorInfo: RoleRevealModeratorInfo,
+  moderatorWait: null,
+  playerReveal: null,
+  playerWaitBefore: null,
+  playerWaitAfter: null,
 }

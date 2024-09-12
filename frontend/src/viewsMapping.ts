@@ -1,10 +1,11 @@
-import { readable } from "svelte/store";
 import Lobby from "./lib/views/Lobby.svelte";
 import Loading from "./lib/views/Loading.svelte";
 import EventInfo from "./lib/views/EventInfo.svelte";
+import Reveal from "./lib/views/Reveal.svelte";
 
-export const views: any = readable({
+export const views: any = {
     loading: Loading,
     lobby: Lobby,
-    eventInfo: EventInfo
-})
+    eventInfo: EventInfo,
+    reveal: Reveal
+}
