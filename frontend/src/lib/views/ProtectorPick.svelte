@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { roles } from "../../roles";
   import { playerState, view } from "../../stores";
   import { protectorPickModes } from "../../viewsMapping";
   import GameScreenHeader from "../components/GameScreenHeader.svelte";
@@ -7,13 +8,13 @@
 </script>
 
 <div class="game">
-  {#if $view.data.mode === "moderatorInfo" || $view.data.mode === "moderatorResult"}
+  {#if $view.data.mode !== "pick"}
     <GameScreenHeader header={"Night #" + $playerState.cycle} />
   {:else}
     <div class="header-box">
       <GameScreenHeader header={"Night #" + $playerState.cycle}>
         <div class="protector-icon">
-          <Icon name="shield" />
+          <Icon name={roles.protector.icon} />
         </div>
       </GameScreenHeader>
       {#if $view.data.mode === "pick"}

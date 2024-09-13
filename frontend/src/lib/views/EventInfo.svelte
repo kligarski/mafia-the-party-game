@@ -3,7 +3,7 @@
   import { eventData } from "../../eventData";
   import BigIcon from "../components/BigIcon.svelte";
 
-  const { icon, header, addCycleNumber, info, buttonAction } =
+  const { icon, header, addCycleNumber, info, moderatorInfo, buttonAction } =
     eventData[$view.data.mode];
 
   function continueEvent() {
@@ -23,6 +23,9 @@
     <div class="info">
       {@html info}
     </div>
+    {#if moderatorInfo !== undefined && $playerState.role === "moderator"}
+      <div class="additional-info">{moderatorInfo}</div>
+    {/if}
   </div>
   {#if $playerState.role === "moderator"}
     <button class="main-button" on:click={continueEvent}>Continue</button>

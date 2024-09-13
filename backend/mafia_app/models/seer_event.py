@@ -188,7 +188,21 @@ class SeerEvent(GameState):
             "data": {}
         }
         
-        self.game.moderator.view["data"]["mode"] = "moderatorEnd"
+        moderator_view = {
+            "view": "seerPick",
+            "data": {
+                "mode": "moderatorEnd",
+                "data": {
+                    "seer": {
+                        "id": self.seer.id,
+                        "username": self.seer.user.visible_username,
+                        "alive": self.seer.is_alive
+                    }
+                }
+            }
+        }
+        
+        self.game.moderator.view = moderator_view
         self.game.moderator.save(update_fields=["view"])
         self.game.moderator.update_view()
         

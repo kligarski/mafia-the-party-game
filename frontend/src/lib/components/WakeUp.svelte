@@ -15,13 +15,24 @@
       data: {},
     });
   }
+
+  $: everyoneDead = players.every((player: Player) => !player.alive);
 </script>
 
 <div class="wake-up">
   <BigRole {roleName} />
   <PlayerList {players} />
+  {#if everyoneDead}
+    <div class="additional-info">
+      The {players.length > 1 ? "players are" : "player is"} dead, so you have to
+      fake it like they are alive. <br /><br />Pretend to wake them up, wait for
+      the answer, put them back to sleep and press continue.
+    </div>
+  {/if}
   {#if waitMessage === null}
-    <button class="main-button" on:click={wakeUp}>Wake up!</button>
+    <button class="main-button" on:click={wakeUp}>
+      {everyoneDead ? "Continue" : "Wake up!"}
+    </button>
   {:else}
     <div class="info-text">{waitMessage}</div>
   {/if}

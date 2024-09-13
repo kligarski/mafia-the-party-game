@@ -8,9 +8,17 @@ export const eventData: any = {
   },
   nightInfo: {
     icon: "bedtime",
-    header: `Night`,
+    header: "Night",
     addCycleNumber: true,
     info: "The night is the time when the hidden roles come into play.<br><br>Members of each role will be woken up by the moderator.<br><br>For now, <b>sleep tight and don't let the bedbugs bite!</b>",
     buttonAction: "startNight",
+  },
+  dayInfo: {
+    icon: "sunny",
+    header: "Day",
+    addCycleNumber: true,
+    info: "Good morning!<br><br>It's time to check if everyone survived this night.",
+    moderatorInfo: "Wake the players up.",
+    buttonAction: "startDay",
   }
 }

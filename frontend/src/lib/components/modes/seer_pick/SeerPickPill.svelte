@@ -6,7 +6,7 @@
 
   function handleClick() {
     sendMessage({
-      action: "protectorPick",
+      action: "seerPick",
       data: {
         id: playerId,
       },
@@ -14,15 +14,15 @@
   }
 </script>
 
-<div class="protector-pick-pill">
+<div class="seer-pick-pill">
   <PlayerListPill isClickable={true} on:player-list-pill-click={handleClick}>
-    Protect
+    Investigate
   </PlayerListPill>
 </div>
 
 <style>
-  :global(.protector-pick-pill > .player-list-pill) {
-    background-color: var(--blue);
+  :global(.seer-pick-pill > .player-list-pill) {
+    background-color: var(--yellow);
     color: var(--main1);
   }
 </style>

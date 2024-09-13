@@ -15,6 +15,13 @@ import ProtectorPick from "./lib/views/ProtectorPick.svelte";
 import ProtectorPickModeratorWait from "./lib/views/modes/protector_pick/ProtectorPickModeratorWait.svelte";
 import ProtectorPickResult from "./lib/views/modes/protector_pick/ProtectorPickResult.svelte";
 import ProtectorPickPick from "./lib/views/modes/protector_pick/ProtectorPickPick.svelte";
+import SeerPick from "./lib/views/SeerPick.svelte";
+import SeerPickWakeUp from "./lib/views/modes/seer_pick/SeerPickWakeUp.svelte";
+import SeerPickModeratorWaitForPick from "./lib/views/modes/seer_pick/SeerPickModeratorWaitForPick.svelte";
+import SeerPickModeratorWaitForConfirm from "./lib/views/modes/seer_pick/SeerPickModeratorWaitForConfirm.svelte";
+import SeerPickPick from "./lib/views/modes/seer_pick/SeerPickPick.svelte";
+import SeerPickResult from "./lib/views/modes/seer_pick/SeerPickResult.svelte";
+import SeerPickModeratorEnd from "./lib/views/modes/seer_pick/SeerPickModeratorEnd.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -25,6 +32,7 @@ export const views: any = {
     mafiaVote: MafiaVote,
     backToSleep: BackToSleep,
     protectorPick: ProtectorPick,
+    seerPick: SeerPick,
 }
 
 export const roleRevealModes: any = {
@@ -47,4 +55,13 @@ export const protectorPickModes: any = {
   moderatorWait: ProtectorPickModeratorWait,
   pick: ProtectorPickPick,
   moderatorResult: ProtectorPickResult,
+}
+
+export const seerPickModes: any = {
+  moderatorInfo: SeerPickWakeUp,
+  moderatorWaitForPick: SeerPickModeratorWaitForPick,
+  moderatorWaitForConfirm: SeerPickModeratorWaitForConfirm,
+  pick: SeerPickPick,
+  result: SeerPickResult,
+  moderatorEnd: SeerPickModeratorEnd,
 }

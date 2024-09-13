@@ -7,6 +7,7 @@
   export let players: Player[];
   export let onClickMessage: string =
     "end" + $view.view.charAt(0).toUpperCase() + $view.view.slice(1);
+  export let waitMessage: string | null = null;
 
   function endEvent() {
     sendMessage({
@@ -19,11 +20,15 @@
 <div class="result">
   <BigRole {roleName} pick={true} />
   <PlayerList {players} />
-  <div class="additional-info">
-    Make sure player{players.length > 1 ? "s" : ""}
-    from this phase go{players.length > 1 ? "" : "es"} back to sleep.
-  </div>
-  <button class="main-button" on:click={endEvent}>Continue</button>
+  {#if waitMessage === null}
+    <div class="additional-info">
+      Make sure player{players.length > 1 ? "s" : ""}
+      from this phase go{players.length > 1 ? "" : "es"} back to sleep.
+    </div>
+    <button class="main-button" on:click={endEvent}>Continue</button>
+  {:else}
+    <div class="info-text">{waitMessage}</div>
+  {/if}
 </div>
 
 <style>
