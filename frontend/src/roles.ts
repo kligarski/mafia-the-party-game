@@ -6,11 +6,18 @@ export type Role = {
 }
 
 export const roles: any = {
+  player: {
+    name: "Player",
+    description: "The Player.",
+    icon: "person",
+    color: "var(--background)"
+  },
+
   moderator: {
     name: "Moderator",
     description: "The Moderator oversees the game, manages the game's night and day phases without participating as a player.",
     icon: "build",
-    color: "inherit"
+    color: "var(--background)"
   }, 
 
   mafia: {

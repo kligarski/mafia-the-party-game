@@ -22,6 +22,7 @@ import SeerPickModeratorWaitForConfirm from "./lib/views/modes/seer_pick/SeerPic
 import SeerPickPick from "./lib/views/modes/seer_pick/SeerPickPick.svelte";
 import SeerPickResult from "./lib/views/modes/seer_pick/SeerPickResult.svelte";
 import SeerPickModeratorEnd from "./lib/views/modes/seer_pick/SeerPickModeratorEnd.svelte";
+import NightOutcome from "./lib/views/NightOutcome.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -33,6 +34,13 @@ export const views: any = {
     backToSleep: BackToSleep,
     protectorPick: ProtectorPick,
     seerPick: SeerPick,
+    nightOutcome: NightOutcome,
+}
+
+export const deadAllowedViews: any = {
+  loading: Loading,
+  lobby: Lobby,
+  end: null, // TODO
 }
 
 export const roleRevealModes: any = {

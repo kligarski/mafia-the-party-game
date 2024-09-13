@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { connect, playerState, view } from "./stores";
-  import { views } from "./viewsMapping";
+  import { deadAllowedViews, views } from "./viewsMapping";
 
   import Error from "./lib/views/Error.svelte";
+  import Dead from "./lib/views/Dead.svelte";
 
   export let gameCode: string | undefined;
 
@@ -22,9 +23,10 @@
   {:else}
     <Error />
   {/if}
+{:else if $view.view in deadAllowedViews}
+  <svelte:component this={views[$view.view]} />
 {:else}
-  <!-- TODO -->
-  <Error />
+  <Dead />
 {/if}
 
 <style>

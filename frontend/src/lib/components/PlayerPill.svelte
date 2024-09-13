@@ -28,7 +28,9 @@
 <div class="pill">
   <div class={playerDataClass} style:color>
     <Icon
-      name={player.role === undefined ? "person" : roles[player.role].icon}
+      name={player.role === undefined
+        ? roles["player"].icon
+        : roles[player.role].icon}
     />
     <span class="username">
       {player.username}

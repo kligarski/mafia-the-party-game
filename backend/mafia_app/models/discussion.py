@@ -33,19 +33,19 @@ class Discussion(GameState):
     
     def handle_action(self, player, action_type, action_data):
         match action_type:
-            case "discussionStart" if (player.role == Player.Role.MODERATOR
+            case "startDiscussion" if (player.role == Player.Role.MODERATOR
                                        and self.current_state == self.State.EVENT_INFO):
                 self.discussion_start()
             
-            case "discussionExtend" if (player.role == Player.Role.MODERATOR
+            case "extendDiscussion" if (player.role == Player.Role.MODERATOR
                                         and self.current_state == self.State.DISCUSSION_ONGOING):
                 self.discussion_extend()
             
-            case "discussionFinish" if (player.role == Player.Role.MODERATOR
+            case "finishDiscussion" if (player.role == Player.Role.MODERATOR
                                         and self.current_state == self.State.DISCUSSION_ONGOING):
                 self.discussion_finish()
                 
-            case "discussionEnd" if (player.role == Player.Role.MODERATOR
+            case "endDiscussion" if (player.role == Player.Role.MODERATOR
                                      and self.current_state == self.State.DISCUSSION_FINISHED):
                 self.end()
             

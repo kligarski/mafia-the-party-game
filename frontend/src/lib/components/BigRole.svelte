@@ -1,18 +1,21 @@
 <script lang="ts">
-  import { roles, type Role } from "../../roles";
+  import { roles } from "../../roles";
   import BigIcon from "./BigIcon.svelte";
 
   export let roleName: string;
   export let description: boolean = false;
   export let pick: boolean = false;
+  export let showHeader: boolean = true;
 
-  $: role = roleName in roles ? roles[roleName] : roles["villager"];
+  $: role = roleName in roles ? roles[roleName] : roles["player"];
   $: header = pick ? role.name + "'s pick" : role.name;
 </script>
 
 <div class="big-role" style:color={role.color}>
   <BigIcon name={role.icon} />
-  <div class="role-header">{header}</div>
+  {#if showHeader}
+    <div class="role-header">{header}</div>
+  {/if}
   {#if description}
     <div class="description">
       {role.description}
