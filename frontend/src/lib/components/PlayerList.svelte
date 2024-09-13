@@ -17,6 +17,10 @@
       return -1;
     } else if (b.id === $playerState.id) {
       return 1;
+    } else if (a.alive && !b.alive) {
+      return -1;
+    } else if (!a.alive && b.alive) {
+      return 1;
     } else {
       return a.id - b.id;
     }

@@ -23,6 +23,7 @@ import SeerPickPick from "./lib/views/modes/seer_pick/SeerPickPick.svelte";
 import SeerPickResult from "./lib/views/modes/seer_pick/SeerPickResult.svelte";
 import SeerPickModeratorEnd from "./lib/views/modes/seer_pick/SeerPickModeratorEnd.svelte";
 import NightOutcome from "./lib/views/NightOutcome.svelte";
+import Discussion from "./lib/views/Discussion.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -35,6 +36,7 @@ export const views: any = {
     protectorPick: ProtectorPick,
     seerPick: SeerPick,
     nightOutcome: NightOutcome,
+    discussion: Discussion,
 }
 
 export const deadAllowedViews: any = {

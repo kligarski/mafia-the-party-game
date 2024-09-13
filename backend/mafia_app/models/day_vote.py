@@ -53,7 +53,7 @@ class DayVote(GameState):
             
     def handle_action(self, player, action_type, action_data):
         match action_type:
-            case "dayVoteStart" if (player.role == Player.Role.MODERATOR
+            case "startDayVote" if (player.role == Player.Role.MODERATOR
                                     and self.current_state == self.State.EVENT_INFO):
                 self.next_person()
             
@@ -73,7 +73,7 @@ class DayVote(GameState):
                                    and self.current_state == self.State.MODERATOR_RESULT):
                 self.next_person()
                 
-            case "dayVoteEnd" if (player.role == Player.Role.MODERATOR
+            case "endDayVote" if (player.role == Player.Role.MODERATOR
                                   and self.current_state == self.State.VOTE_RESULT):
                 self.end()
             
