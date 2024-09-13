@@ -20,7 +20,8 @@
   <BigRole {roleName} pick={true} />
   <PlayerList {players} />
   <div class="additional-info">
-    Make sure players from this phase go back to sleep.
+    Make sure player{players.length > 1 ? "s" : ""}
+    from this phase go{players.length > 1 ? "" : "es"} back to sleep.
   </div>
   <button class="main-button" on:click={endEvent}>Continue</button>
 </div>

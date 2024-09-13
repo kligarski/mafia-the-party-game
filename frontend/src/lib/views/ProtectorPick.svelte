@@ -1,6 +1,6 @@
 <script lang="ts">
   import { playerState, view } from "../../stores";
-  import { mafiaVoteModes } from "../../viewsMapping";
+  import { protectorPickModes } from "../../viewsMapping";
   import GameScreenHeader from "../components/GameScreenHeader.svelte";
   import Icon from "../icons/Icon.svelte";
   import Error from "./Error.svelte";
@@ -12,19 +12,20 @@
   {:else}
     <div class="header-box">
       <GameScreenHeader header={"Night #" + $playerState.cycle}>
-        <div class="mafia-icon">
-          <Icon name="domino_mask" />
+        <div class="protector-icon">
+          <Icon name="shield" />
         </div>
       </GameScreenHeader>
-      {#if $view.data.mode === "vote"}
+      {#if $view.data.mode === "pick"}
         <div class="event-small-desc">
-          As the mafia, you have to choose one person to be killed this night.
+          As a protector, you have to choose one person to be protected this
+          night.
         </div>
       {/if}
     </div>
   {/if}
-  {#if $view.data.mode in mafiaVoteModes}
-    <svelte:component this={mafiaVoteModes[$view.data.mode]} />
+  {#if $view.data.mode in protectorPickModes}
+    <svelte:component this={protectorPickModes[$view.data.mode]} />
   {:else}
     <Error>Unknown mode.</Error>
   {/if}
@@ -39,12 +40,12 @@
     align-items: center;
   }
 
-  .mafia-icon {
+  .protector-icon {
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: 2.5em;
-    color: var(--red);
+    color: var(--blue);
   }
 </style>

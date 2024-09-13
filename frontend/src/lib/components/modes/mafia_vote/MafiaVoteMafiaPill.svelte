@@ -8,13 +8,6 @@
     (player: Player) => player.id === playerId
   );
 
-  console.log($view.data.data.votes);
-  console.log(playerId);
-  console.log(
-    $view.data.data.votes.find((player: Player) => player.id === playerId)
-      .chosen
-  );
-
   function handleClick() {
     if (playerVotesData.chosen) {
       sendMessage({
@@ -44,7 +37,6 @@
   </PlayerListPill>
 </div>
 
-<!-- svelte-ignore css-unused-selector -->
 <style>
   :global(.mafia-vote-mafia-pill-chosen > .player-list-pill) {
     background-color: var(--red);

@@ -6,7 +6,7 @@
 </script>
 
 {#if before}
-  <BigInfo message="Wait for your role to be revealed..." />
+  <BigInfo message="Wait for your role to be revealed." />
 {:else}
-  <BigInfo message="Wait for the role reveal to end..." />
+  <BigInfo message="Wait for the role reveal to end." />
 {/if}

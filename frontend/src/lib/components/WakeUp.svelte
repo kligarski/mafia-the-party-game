@@ -7,6 +7,7 @@
   export let players: Player[];
   export let onClickMessage: string =
     "start" + $view.view.charAt(0).toUpperCase() + $view.view.slice(1);
+  export let waitMessage: string | null = null;
 
   function wakeUp() {
     sendMessage({
@@ -19,7 +20,11 @@
 <div class="wake-up">
   <BigRole {roleName} />
   <PlayerList {players} />
-  <button class="main-button" on:click={wakeUp}>Wake up!</button>
+  {#if waitMessage === null}
+    <button class="main-button" on:click={wakeUp}>Wake up!</button>
+  {:else}
+    <div class="info-text">{waitMessage}</div>
+  {/if}
 </div>
 
 <style>

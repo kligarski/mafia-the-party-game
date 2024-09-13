@@ -15,7 +15,6 @@
   </PlayerListPill>
 </div>
 
-<!-- svelte-ignore css-unused-selector -->
 <style>
   :global(.mafia-vote-moderator-pill-normal > .player-list-pill) {
     background-color: var(--main1);

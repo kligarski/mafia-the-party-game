@@ -10,6 +10,11 @@ import NoPeeking from "./lib/views/NoPeeking.svelte";
 import MafiaVoteMainView from "./lib/views/modes/mafia_vote/MafiaVoteMainView.svelte";
 import BackToSleep from "./lib/views/BackToSleep.svelte";
 import MafiaVoteResult from "./lib/views/modes/mafia_vote/MafiaVoteResult.svelte";
+import ProtectorPickWakeUp from "./lib/views/modes/protector_pick/ProtectorPickWakeUp.svelte";
+import ProtectorPick from "./lib/views/ProtectorPick.svelte";
+import ProtectorPickModeratorWait from "./lib/views/modes/protector_pick/ProtectorPickModeratorWait.svelte";
+import ProtectorPickResult from "./lib/views/modes/protector_pick/ProtectorPickResult.svelte";
+import ProtectorPickPick from "./lib/views/modes/protector_pick/ProtectorPickPick.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -19,6 +24,7 @@ export const views: any = {
     noPeeking: NoPeeking,
     mafiaVote: MafiaVote,
     backToSleep: BackToSleep,
+    protectorPick: ProtectorPick,
 }
 
 export const roleRevealModes: any = {
@@ -34,4 +40,11 @@ export const mafiaVoteModes: any = {
     moderatorWait: MafiaVoteMainView,
     vote: MafiaVoteMainView,
     moderatorResult: MafiaVoteResult,
+}
+
+export const protectorPickModes: any = {
+  moderatorInfo: ProtectorPickWakeUp,
+  moderatorWait: ProtectorPickModeratorWait,
+  pick: ProtectorPickPick,
+  moderatorResult: ProtectorPickResult,
 }
