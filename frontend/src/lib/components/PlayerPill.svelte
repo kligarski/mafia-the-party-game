@@ -6,7 +6,6 @@
   export let player: Player;
 
   if (player.role === undefined) {
-    console.log(player);
     let playerDataFromState = $playerState.playersDiscovered.find(
       (p) => p.id == player.id && p.role !== undefined
     );

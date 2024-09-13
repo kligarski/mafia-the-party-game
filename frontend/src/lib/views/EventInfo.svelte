@@ -1,7 +1,6 @@
 <script lang="ts">
   import { view, playerState, sendMessage } from "../../stores";
   import { eventData } from "../../eventData";
-  import Icon from "../icons/Icon.svelte";
   import BigIcon from "../components/BigIcon.svelte";
 
   const { icon, header, info, buttonAction } = eventData[$view.data.mode];
@@ -16,7 +15,7 @@
 
 <div class="game space-between">
   <div class="content">
-    <BigIcon name={icon} color="--var(main2)" />
+    <BigIcon name={icon} color="var(--main2)" />
     <h1 class="header">{header}</h1>
     <div class="info">
       {@html info}
