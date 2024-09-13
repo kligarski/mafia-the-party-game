@@ -312,3 +312,11 @@ input[type="text"]::placeholder {
   font-style: italic;
   color: var(--main2);
 }
+
+.event-small-desc {
+  display: flex;
+  width: 100%;
+  
+  font-size: 0.8em;
+  font-style: italic;
+}

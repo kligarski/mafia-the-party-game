@@ -34,6 +34,8 @@ export type Player = {
     username: string,
     role?: string,
     alive?: boolean,
+    chosen?: boolean,
+    votes?: number
 }
 
 export type PlayerState = {

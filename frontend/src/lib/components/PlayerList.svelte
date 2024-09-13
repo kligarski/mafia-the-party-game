@@ -1,8 +1,12 @@
 <script lang="ts">
+  import type { ComponentType, SvelteComponent } from "svelte";
   import { type Player, playerState } from "../../stores";
   import PlayerPill from "./PlayerPill.svelte";
 
   export let players: Player[];
+  export let extra: ComponentType<
+    SvelteComponent<{ playerId: number }>
+  > | null = null;
 
   $: sortedPlayers = players.sort((a: Player, b: Player) => {
     if (a.role === "moderator") {
@@ -20,8 +24,14 @@
 </script>
 
 <div>
-  {#each sortedPlayers as player}
-    <PlayerPill {player} />
+  {#each sortedPlayers as player (player.id)}
+    {#if extra === null}
+      <PlayerPill {player} />
+    {:else}
+      <PlayerPill {player}>
+        <svelte:component this={extra} playerId={player.id} />
+      </PlayerPill>
+    {/if}
   {/each}
 </div>
 

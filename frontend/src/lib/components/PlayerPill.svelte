@@ -5,13 +5,15 @@
 
   export let player: Player;
 
-  if (player.role === undefined) {
-    let playerDataFromState = $playerState.playersDiscovered.find(
-      (p) => p.id == player.id && p.role !== undefined
-    );
+  $: {
+    if (player.role === undefined) {
+      let playerDataFromState = $playerState.playersDiscovered.find(
+        (p) => p.id == player.id && p.role !== undefined
+      );
 
-    if (playerDataFromState) {
-      player.role = playerDataFromState.role;
+      if (playerDataFromState) {
+        player.role = playerDataFromState.role;
+      }
     }
   }
 
@@ -32,7 +34,9 @@
       {player.username}
     </span>
   </div>
-  <div class="extra"></div>
+  <div class="extra">
+    <slot />
+  </div>
 </div>
 
 <style>
