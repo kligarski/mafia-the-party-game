@@ -15,12 +15,16 @@
     }
   }
 
+  const alive = player.alive !== undefined ? player.alive : true;
+
   $: color =
     player.id === $playerState.id ? "var(--main3)" : "var(--background)";
+
+  $: playerDataClass = alive ? "player-data" : "player-data dead";
 </script>
 
 <div class="pill">
-  <div class="player-data" style:color>
+  <div class={playerDataClass} style:color>
     <Icon
       name={player.role === undefined ? "person" : roles[player.role].icon}
     />
@@ -38,6 +42,10 @@
     align-items: center;
 
     gap: 0.6em;
+  }
+
+  .dead {
+    opacity: 50%;
   }
 
   .player-data {

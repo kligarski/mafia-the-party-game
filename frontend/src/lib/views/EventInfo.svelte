@@ -3,7 +3,8 @@
   import { eventData } from "../../eventData";
   import BigIcon from "../components/BigIcon.svelte";
 
-  const { icon, header, info, buttonAction } = eventData[$view.data.mode];
+  const { icon, header, addCycleNumber, info, buttonAction } =
+    eventData[$view.data.mode];
 
   function continueEvent() {
     sendMessage({
@@ -11,12 +12,14 @@
       data: {},
     });
   }
+
+  $: fullHeader = addCycleNumber ? header + " #" + $playerState.cycle : header;
 </script>
 
 <div class="game space-between">
   <div class="content">
     <BigIcon name={icon} color="var(--main2)" />
-    <h1 class="header">{header}</h1>
+    <h1 class="header">{fullHeader}</h1>
     <div class="info">
       {@html info}
     </div>

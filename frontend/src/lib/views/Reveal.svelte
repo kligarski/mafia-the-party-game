@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { view, playerState } from "../../stores";
-  import { roleRevealModes } from "../../eventData";
+  import { view } from "../../stores";
+  import { roleRevealModes } from "../../viewsMapping";
   import GameScreenHeader from "../components/GameScreenHeader.svelte";
   import SmallPill from "../components/SmallPill.svelte";
   import Error from "./Error.svelte";

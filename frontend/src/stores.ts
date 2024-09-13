@@ -32,7 +32,8 @@ export const view = createViewStore();
 export type Player = {
     id: number,
     username: string,
-    role?: string
+    role?: string,
+    alive?: boolean,
 }
 
 export type PlayerState = {
@@ -41,7 +42,7 @@ export type PlayerState = {
     role: string,
     playersDiscovered: Player[],
     alive: boolean,
-    cycle: number
+    cycle: number,
 }
 
 let setPlayerState: (value: PlayerState) => void;
