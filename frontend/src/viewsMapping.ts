@@ -8,6 +8,8 @@ import RoleRevealPlayerWait from "./lib/views/modes/role_reveal/RoleRevealPlayer
 import MafiaVoteWakeUp from "./lib/views/modes/mafia_vote/MafiaVoteWakeUp.svelte";
 import NoPeeking from "./lib/views/NoPeeking.svelte";
 import MafiaVoteMainView from "./lib/views/modes/mafia_vote/MafiaVoteMainView.svelte";
+import BackToSleep from "./lib/views/BackToSleep.svelte";
+import MafiaVoteResult from "./lib/views/modes/mafia_vote/MafiaVoteResult.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -16,6 +18,7 @@ export const views: any = {
     reveal: Reveal,
     noPeeking: NoPeeking,
     mafiaVote: MafiaVote,
+    backToSleep: BackToSleep,
 }
 
 export const roleRevealModes: any = {
@@ -30,4 +33,5 @@ export const mafiaVoteModes: any = {
     moderatorInfo: MafiaVoteWakeUp,
     moderatorWait: MafiaVoteMainView,
     vote: MafiaVoteMainView,
+    moderatorResult: MafiaVoteResult,
 }

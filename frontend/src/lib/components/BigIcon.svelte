@@ -11,7 +11,7 @@
 
 <style>
   .icon-box {
-    font-size: min(8em, 20vh);
+    font-size: min(8em, 15vh);
     display: flex;
     justify-content: center;
     align-items: center;

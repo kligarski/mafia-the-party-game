@@ -50,5 +50,7 @@
 
     width: 100%;
     overflow-y: auto;
+
+    min-height: 3.3em;
   }
 </style>
