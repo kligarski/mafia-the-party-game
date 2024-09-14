@@ -24,6 +24,10 @@ import SeerPickResult from "./lib/views/modes/seer_pick/SeerPickResult.svelte";
 import SeerPickModeratorEnd from "./lib/views/modes/seer_pick/SeerPickModeratorEnd.svelte";
 import NightOutcome from "./lib/views/NightOutcome.svelte";
 import Discussion from "./lib/views/Discussion.svelte";
+import DayVote from "./lib/views/DayVote.svelte";
+import DayVoteMainView from "./lib/views/modes/day_vote/DayVoteMainView.svelte";
+import DayVoteResult from "./lib/views/modes/day_vote/DayVoteResult.svelte";
+import End from "./lib/views/End.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -37,12 +41,14 @@ export const views: any = {
     seerPick: SeerPick,
     nightOutcome: NightOutcome,
     discussion: Discussion,
+    dayVote: DayVote,
+    end: End,
 }
 
 export const deadAllowedViews: any = {
   loading: Loading,
   lobby: Lobby,
-  end: null, // TODO
+  end: End,
 }
 
 export const roleRevealModes: any = {
@@ -74,4 +80,17 @@ export const seerPickModes: any = {
   pick: SeerPickPick,
   result: SeerPickResult,
   moderatorEnd: SeerPickModeratorEnd,
+}
+
+export const dayVoteModes: any = {
+  moderatorInfo: DayVoteMainView,
+  playerWaitBefore: DayVoteMainView,
+  playerWaitAfter: DayVoteMainView,
+  moderatorWait: DayVoteMainView,
+  playerVote: DayVoteMainView,
+  playerVoteResult: DayVoteMainView,
+  playerWaitSomebody: DayVoteMainView,
+  playerWaitSomebodyResult: DayVoteMainView,
+  moderatorResult: DayVoteMainView,
+  result: DayVoteResult,
 }

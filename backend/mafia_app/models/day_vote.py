@@ -125,7 +125,7 @@ class DayVote(GameState):
             self.save(update_fields=["votes"])
         
         choice = {
-            "id": voted_player_id,
+            "id": int(voted_player_id),
             "username": Player.objects.get(id=voted_player_id).user.visible_username
         } if data is not None else None
         

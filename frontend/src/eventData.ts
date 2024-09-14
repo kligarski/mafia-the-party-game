@@ -36,7 +36,7 @@ export const eventData: any = {
     icon: "how_to_vote",
     header: "Vote",
     addCycleNumber: true,
-    info: "Now it's time to vote. Every player, one-by-one, in random order will have to pick a person they suspect of being in the mafia or skip the vote.<br><br>If someone gets at least half of the votes, they are eliminated. If there is a tie, no one is eliminated."
+    info: "Now it's time to vote. Every player, one-by-one, in random order will have to pick a person they suspect of being in the mafia or skip the vote.<br><br>If someone gets at least half of the votes, they are eliminated. If there is a tie, no one is eliminated.",
+    buttonAction: "startDayVote"
   },
-  buttonAction: "startDayVote"
 }

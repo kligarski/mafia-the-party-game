@@ -1,6 +1,6 @@
 <script lang="ts">
   import { afterUpdate } from "svelte";
-  import { sendMessage, view } from "../../stores";
+  import { playerState, sendMessage, view } from "../../stores";
   import BigIcon from "../components/BigIcon.svelte";
   import PlayerList from "../components/PlayerList.svelte";
   import Timer from "../components/Timer.svelte";
@@ -45,14 +45,16 @@
     <Timer bind:this={timer} />
   </div>
   <PlayerList players={$view.data.data.players} />
-  <div class="buttons">
-    {#if $view.data.mode === "ongoing"}
-      <button class="main-button" on:click={extend}>+2 min</button>
-      <button class="main-button" on:click={skip}>Skip</button>
-    {:else if $view.data.mode === "finished"}
-      <button class="main-button" on:click={continueEvent}>Continue</button>
-    {/if}
-  </div>
+  {#if $playerState.role === "moderator"}
+    <div class="buttons">
+      {#if $view.data.mode === "ongoing"}
+        <button class="main-button" on:click={extend}>+2 min</button>
+        <button class="main-button" on:click={skip}>Skip</button>
+      {:else if $view.data.mode === "finished"}
+        <button class="main-button" on:click={continueEvent}>Continue</button>
+      {/if}
+    </div>
+  {/if}
 </div>
 
 <style>

@@ -37,6 +37,7 @@
     font-weight: 700;
     margin-top: -0.5em;
     margin-bottom: -0.2em;
+    text-align: center;
   }
 
   .description {

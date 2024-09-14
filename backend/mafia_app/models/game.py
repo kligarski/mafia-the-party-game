@@ -10,7 +10,7 @@ def get_random_code():
     return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=GAME_CODE_LENGTH))
 
 def is_code_unique(code):
-    return len(Game.objects.filter(code=code, has_finished=False)) == 0
+    return len(Game.objects.filter(code=code)) == 0
 
 def generate_game_code():
     code = get_random_code()

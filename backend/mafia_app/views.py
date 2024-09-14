@@ -35,9 +35,10 @@ def logout_view(request):
 @login_required
 def game(request, game_code):
     try:
-        game = Game.objects.get(code=game_code, has_finished=False)
+        # TODO: handling finished games - has_finished=False?
+        game = Game.objects.get(code=game_code)
     except Game.DoesNotExist:
-        messages.error(request, "Game does not exist or it has already finished.")
+        messages.error(request, "Game does not exist.") # TODO: ...or it has already finished
         return HttpResponseRedirect(reverse("index"))
     
     if len(game.players.filter(user=request.user)) == 0:
