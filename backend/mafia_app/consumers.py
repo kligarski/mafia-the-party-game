@@ -1,8 +1,6 @@
-import json
-
 from channels.generic.websocket import JsonWebsocketConsumer
 
-from .models import Game, Player, Lobby
+from .models import Game, Lobby
 
 class GameConsumer(JsonWebsocketConsumer):
     def connect(self):

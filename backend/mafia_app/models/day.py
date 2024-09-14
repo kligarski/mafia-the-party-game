@@ -1,5 +1,4 @@
 from django.db import models
-from enum import Enum
 from . import GameState, Player, NightOutcome, Game, End, Discussion, DayVote
 
 class Day(GameState):

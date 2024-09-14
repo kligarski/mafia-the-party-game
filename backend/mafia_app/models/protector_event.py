@@ -54,8 +54,7 @@ class ProtectorEvent(GameState):
     def handle_action(self, player, action_type, action_data):
         match action_type:
             case "startProtectorPick" if (player.role == Player.Role.MODERATOR
-                                          and self.current_state == self.State.MODERATOR_INFO
-                                          and self.protector.is_alive):
+                                          and self.current_state == self.State.MODERATOR_INFO):
                 self.start_protector_pick()
                 
             case "skipProtectorPick" if (player.role == Player.Role.MODERATOR
@@ -77,6 +76,10 @@ class ProtectorEvent(GameState):
                 self.unknown_action(player, action_type, action_data)
     
     def start_protector_pick(self):
+        if not self.protector.is_alive:
+            self.end()
+            return
+        
         self.current_state = self.State.PICK
         self.save(update_fields=["current_state"])
         

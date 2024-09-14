@@ -55,8 +55,7 @@ class SeerEvent(GameState):
     def handle_action(self, player, action_type, action_data):
         match action_type:
             case "startSeerPick" if (player.role == Player.Role.MODERATOR
-                                     and self.current_state == self.State.MODERATOR_INFO
-                                     and self.seer.is_alive):
+                                     and self.current_state == self.State.MODERATOR_INFO):
                 self.start_seer_pick()
                 
             case "skipSeerPick" if (player.role == Player.Role.MODERATOR
@@ -83,6 +82,10 @@ class SeerEvent(GameState):
                 self.unknown_action(player, action_type, action_data)
     
     def start_seer_pick(self):
+        if not self.seer.is_alive:
+            self.end()
+            return
+        
         self.current_state = self.State.PICK
         self.save(update_fields=["current_state"])
         

@@ -1,6 +1,5 @@
 from django.db import models
-from datetime import timedelta
-from django.utils import timezone
+from datetime import timedelta, datetime, timezone
 from . import GameState, Player
 
 class Discussion(GameState):
@@ -54,7 +53,7 @@ class Discussion(GameState):
     
     def discussion_start(self):
         self.current_state = self.State.DISCUSSION_ONGOING
-        self.discussion_end_time = timezone.now() + self.INITIAL_DURATION
+        self.discussion_end_time = datetime.now(timezone.utc) + self.INITIAL_DURATION
         self.save(update_fields=["current_state", "discussion_end_time"])
         
         self.update_ongoing_view_for_all_players()
@@ -94,7 +93,7 @@ class Discussion(GameState):
             "data": {
                 "mode": "ongoing",
                 "data": {
-                    "timeRemaining": (self.discussion_end_time - timezone.now()).seconds,
+                    "endTime": self.discussion_end_time.isoformat(),
                     "players": [
                         {
                             "id": player.id,

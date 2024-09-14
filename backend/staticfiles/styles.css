@@ -324,12 +324,12 @@ input[type="text"]::placeholder {
 .additional-info {
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
   max-width: 500px;
   font-size: clamp(1.4rem, 5vw, 2rem);
   font-style: italic;
   color: var(--main2);
+  overflow-y: auto;
 }
 
 .event-small-desc {
