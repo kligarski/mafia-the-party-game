@@ -19,6 +19,6 @@
     "vite": "^5.4.1"
   },
   "dependencies": {
-    "reconnecting-websocket": "^4.4.0"
+    "partysocket": "^1.0.2"
   }
 }

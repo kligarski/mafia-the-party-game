@@ -4,7 +4,6 @@
   import { view, sendMessage, playerState } from "../../stores";
   import PlayerList from "../components/PlayerList.svelte";
   import LobbyActionsButtons from "../components/modes/lobby/LobbyActionsButtons.svelte";
-  import { afterUpdate } from "svelte";
 
   $: playerCount = $view.data.players.length;
 
