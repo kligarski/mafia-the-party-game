@@ -1,7 +1,7 @@
 <script lang="ts">
   import { view, sendMessage } from "../../../../stores";
-  import DayVoteActivePill from "../../../components/modes/day_vote.svelte/DayVoteActivePill.svelte";
-  import DayVotePassivePill from "../../../components/modes/day_vote.svelte/DayVotePassivePill.svelte";
+  import DayVoteActivePill from "../../../components/modes/day_vote/DayVoteActivePill.svelte";
+  import DayVotePassivePill from "../../../components/modes/day_vote/DayVotePassivePill.svelte";
   import PlayerList from "../../../components/PlayerList.svelte";
 
   function letPlayerVote() {

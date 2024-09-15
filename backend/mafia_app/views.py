@@ -72,3 +72,8 @@ def join(request):
         return HttpResponseRedirect(reverse("game", args=(request.POST["game_code"],)))
     else:
         HttpResponseRedirect(reverse("index"))
+
+@login_required
+def kicked(request):
+    messages.error(request, "You have been kicked from the game.")
+    return HttpResponseRedirect(reverse("index"))

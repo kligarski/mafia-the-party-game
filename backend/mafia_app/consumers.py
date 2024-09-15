@@ -49,10 +49,12 @@ class GameConsumer(JsonWebsocketConsumer):
         
         self.game.refresh_from_db()
         
-        if not self.game.has_started:
+        if not self.game.has_started:            
             if len(self.game.players.all()) == 1:
                 self.game.delete()
             else:
+                self.player.refresh_from_db()
+                
                 old_moderator = self.player
                 new_moderator = None
                 
@@ -60,12 +62,14 @@ class GameConsumer(JsonWebsocketConsumer):
                     new_moderator = choice(list(self.game.regular_players()))
                     new_moderator.role = Player.Role.MODERATOR
                     self.game.moderator = new_moderator
+
                     new_moderator.save(update_fields=["role"])
+                    self.game.save(update_fields=["moderator"])
                     
                 old_moderator.delete()
                 
                 if new_moderator is not None:
-                    new_moderator.update_view()
+                    new_moderator.update_state()
                 
                 lobby = Lobby.objects.get(game=self.game)
                 lobby.handle_players_change()

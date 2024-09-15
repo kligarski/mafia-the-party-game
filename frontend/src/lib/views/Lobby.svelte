@@ -3,8 +3,15 @@
   import PlayerCountPill from "../components/PlayerCountPill.svelte";
   import { view, sendMessage, playerState } from "../../stores";
   import PlayerList from "../components/PlayerList.svelte";
+  import LobbyActionsButtons from "../components/modes/lobby/LobbyActionsButtons.svelte";
+  import { afterUpdate } from "svelte";
 
   $: playerCount = $view.data.players.length;
+
+  afterUpdate(() => {
+    console.log($view);
+    console.log($playerState);
+  });
 
   function gameStart() {
     sendMessage({
@@ -24,7 +31,10 @@
       <h1>Players:</h1>
       <PlayerCountPill count={playerCount} />
     </div>
-    <PlayerList players={$view.data.players} />
+    <PlayerList
+      players={$view.data.players}
+      extra={$playerState.role === "moderator" ? LobbyActionsButtons : null}
+    />
   </div>
   {#if $playerState.role === "moderator"}
     <button class="main-button" on:click={gameStart}

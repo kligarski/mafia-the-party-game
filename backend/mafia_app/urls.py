@@ -8,4 +8,5 @@ urlpatterns = [
     path("create", views.create, name="create"),
     path("join", views.join, name="join"),
     path("game/<str:game_code>", views.game, name="game"),
+    path("kicked", views.kicked, name="kicked"),
 ]
