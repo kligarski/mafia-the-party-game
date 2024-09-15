@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 import time
 
-from .models import User, Game, Player, Lobby
+from .models import User, Game, Player
 
 @login_required
 def index(request):
@@ -35,10 +35,9 @@ def logout_view(request):
 @login_required
 def game(request, game_code):
     try:
-        # TODO: handling finished games - has_finished=False?
-        game = Game.objects.get(code=game_code)
+        game = Game.objects.get(code=game_code, has_finished=False)
     except Game.DoesNotExist:
-        messages.error(request, "Game does not exist.") # TODO: ...or it has already finished
+        messages.error(request, "Game does not exist or it has already finished.")
         return HttpResponseRedirect(reverse("index"))
     
     if len(game.players.filter(user=request.user)) == 0:
@@ -59,17 +58,12 @@ def game(request, game_code):
 @login_required    
 def create(request):
     if request.method == "POST":
-        if Game.objects.filter(players__user=request.user, has_finished=False):
-            messages.error(request, "You are still in an ongoing game. Make sure you leave them or use 'Change username'.")
+        unfinished_games = Game.objects.filter(players__user=request.user, has_finished=False)
+        if unfinished_games:
+            messages.error(request, f"You are still in an ongoing game (ID: {unfinished_games[0].code}). Make sure you finish it or use 'Change username' to abandon it.")
             return HttpResponseRedirect(reverse("index"))
         
-        new_game = Game.objects.create()
-        new_player = Player.objects.create(user=request.user, game=new_game, role=Player.Role.MODERATOR)
-        new_game.moderator = new_player
-        new_lobby = Lobby.objects.create(game=new_game)
-        
-        new_game.current_state = new_lobby
-        new_game.save()
+        new_game = Game.objects.create_and_init(request.user)
         
         return HttpResponseRedirect(reverse("game", args=(new_game.code,)))
     else:

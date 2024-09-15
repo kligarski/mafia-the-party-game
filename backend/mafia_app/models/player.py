@@ -16,7 +16,7 @@ class Player(models.Model):
     game = models.ForeignKey("Game", on_delete=models.CASCADE, related_name="players")
     role = models.CharField(max_length=16, choices=Role, null=True, blank=True)
     is_alive = models.BooleanField(default=True)
-    is_connected = models.BooleanField(default=True)
+    is_connected = models.BooleanField(default=False)
     channel_name = models.CharField(max_length=get_channel_layer().MAX_NAME_LENGTH, null=True, blank=True)
     players_discovered = models.ManyToManyField("self", symmetrical=False)
     view = models.JSONField(default=dict)

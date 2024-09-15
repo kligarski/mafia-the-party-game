@@ -10,13 +10,27 @@ def get_random_code():
     return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=GAME_CODE_LENGTH))
 
 def is_code_unique(code):
-    return len(Game.objects.filter(code=code)) == 0
+    return len(Game.objects.filter(code=code, has_finished=False)) == 0
 
 def generate_game_code():
     code = get_random_code()
     while not is_code_unique(code):
         code = get_random_code()
     return code  
+
+class GameManager(models.Manager):    
+    def create_and_init(self, user):
+        from mafia_app.models import Lobby
+        
+        new_game = self.create()
+        new_player = Player.objects.create(user=user, game=new_game, role=Player.Role.MODERATOR)
+        new_game.moderator = new_player
+        new_lobby = Lobby.objects.create(game=new_game)
+        
+        new_game.current_state = new_lobby
+        new_game.save()
+        
+        return new_game
 
 class Game(models.Model):
     code = models.CharField(default=generate_game_code, max_length=GAME_CODE_LENGTH)
@@ -25,6 +39,8 @@ class Game(models.Model):
     cycle = models.IntegerField(default=0)
     current_state = models.OneToOneField("GameState", on_delete=models.SET_NULL, related_name="+", null=True, blank=True)
     moderator = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name="+", null=True, blank=True) 
+    
+    objects = GameManager()
     
     class GameStatus(models.IntegerChoices):
         CONTINUE = 1

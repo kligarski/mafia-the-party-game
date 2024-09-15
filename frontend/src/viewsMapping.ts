@@ -28,6 +28,7 @@ import DayVote from "./lib/views/DayVote.svelte";
 import DayVoteMainView from "./lib/views/modes/day_vote/DayVoteMainView.svelte";
 import DayVoteResult from "./lib/views/modes/day_vote/DayVoteResult.svelte";
 import End from "./lib/views/End.svelte";
+import Redirect from "./lib/views/Redirect.svelte";
 
 export const views: any = {
     loading: Loading,
@@ -43,12 +44,14 @@ export const views: any = {
     discussion: Discussion,
     dayVote: DayVote,
     end: End,
+    redirect: Redirect,
 }
 
 export const deadAllowedViews: any = {
   loading: Loading,
   lobby: Lobby,
   end: End,
+  redirect: Redirect,
 }
 
 export const roleRevealModes: any = {

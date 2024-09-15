@@ -132,3 +132,9 @@ export let sendMessage = function(data: Message) {
         console.warn("Trying to send a message but there is no WebSocket connection!");
     }
 }
+
+export let tryDisconnect = function() {
+    if (ws !== undefined) {
+        ws.close(1000);
+    }
+}
