@@ -76,19 +76,23 @@ class MafiaVote(GameState):
                 self.start_mafia_vote()
             
             case "mafiaVote" if (player.role == Player.Role.MAFIA
+                                 and player.is_alive
                                  and self.current_state == self.State.VOTE):
                 self.mafia_vote(player, action_data)
                 
             case "mafiaUnvote" if (player.role == Player.Role.MAFIA
-                                 and self.current_state == self.State.VOTE):
+                                   and player.is_alive
+                                   and self.current_state == self.State.VOTE):
                 self.mafia_unvote(player, action_data)
                 
             case "mafiaConfirm" if (player.role == Player.Role.MAFIA
-                                 and self.current_state == self.State.VOTE):
+                                    and player.is_alive
+                                    and self.current_state == self.State.VOTE):
                 self.mafia_do_confirm(player)
             
             case "mafiaCancel" if (player.role == Player.Role.MAFIA
-                                 and self.current_state == self.State.VOTE):
+                                   and player.is_alive
+                                   and self.current_state == self.State.VOTE):
                 self.mafia_cancel(player)
                 
             case "endMafiaVote" if (player.role == Player.Role.MODERATOR 
