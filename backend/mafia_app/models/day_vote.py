@@ -29,7 +29,7 @@ class DayVote(GameState):
         VOTE_RESULT = 5
         EVENT_FINISHED = 6
     
-    day_event = models.ForeignKey("Day", on_delete=models.CASCADE, related_name="+")
+    day_event = models.ForeignKey("Day", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     current_state = models.IntegerField(choices=State, default=State.EVENT_INFO)
     order_of_players = models.JSONField()
     current_player = models.IntegerField(default=-1)

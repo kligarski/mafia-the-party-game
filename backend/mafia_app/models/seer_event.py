@@ -15,8 +15,8 @@ class SeerEvent(GameState):
         MODERATOR_END = 4
         EVENT_FINISHED = 5
     
-    seer = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="+")
-    night_event = models.ForeignKey("Night", on_delete=models.CASCADE, related_name="+")
+    seer = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    night_event = models.ForeignKey("Night", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     current_state = models.IntegerField(choices=State, default=State.MODERATOR_INFO)
     
     objects = SeerEventManager()

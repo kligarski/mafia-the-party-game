@@ -27,7 +27,7 @@ class MafiaVote(GameState):
         MODERATOR_RESULT = 3
         EVENT_FINISHED = 4
     
-    night_event = models.ForeignKey("Night", on_delete=models.CASCADE, related_name="+")
+    night_event = models.ForeignKey("Night", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     current_state = models.IntegerField(choices=State, default=State.MODERATOR_INFO)
     votes = models.JSONField()
     mafia_pick = models.JSONField()

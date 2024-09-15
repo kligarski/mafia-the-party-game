@@ -12,7 +12,7 @@ class Discussion(GameState):
     INITIAL_DURATION = timedelta(minutes=5)
     EXTENSION = timedelta(minutes=2)
     
-    day_event = models.ForeignKey("Day", on_delete=models.CASCADE, related_name="+")
+    day_event = models.ForeignKey("Day", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     current_state = models.IntegerField(choices=State, default=State.EVENT_INFO)
     discussion_end_time = models.DateTimeField(null=True, blank=True)
     

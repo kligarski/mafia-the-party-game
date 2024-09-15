@@ -2,8 +2,8 @@ from django.db import models
 from . import GameState, Player
 
 class NightOutcome(GameState):
-    night_event = models.ForeignKey("Night", on_delete=models.CASCADE, related_name="+")
-    day_event = models.ForeignKey("Day", on_delete=models.CASCADE, related_name="+")
+    night_event = models.ForeignKey("Night", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    day_event = models.ForeignKey("Day", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
     
     def start(self):
         mafia_pick_dies = True
