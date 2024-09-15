@@ -2,34 +2,6 @@
   import { onDestroy, onMount } from "svelte";
   import { playerState, sendMessage, view } from "../../stores";
 
-  // import { afterUpdate, onDestroy, onMount } from "svelte";
-  // import { view, playerState, sendMessage } from "../../stores";
-
-  console.log($view);
-
-  // let secondsRemaining: number;
-  // let interval: number | undefined = 5 * 60;
-
-  // $: minutes = Math.floor(secondsRemaining / 60)
-  //   .toString()
-  //   .padStart(2, "0");
-
-  // $: seconds = Math.floor(secondsRemaining % 60)
-  //   .toString()
-  //   .padStart(2, "0");
-
-  // onMount(() => {
-  //   console.log("ok");
-  //   interval = setInterval(() => {
-  //     console.log(secondsRemaining > 0);
-  //     if (secondsRemaining > 0) {
-  //       secondsRemaining -= 1;
-  //     } else if ($playerState.role === "moderator") {
-  //       skipTimer();
-  //     }
-  //   }, 1000);
-  // });
-
   let interval: number | undefined = undefined;
   let minutes: string = "00";
   let seconds: string = "00";

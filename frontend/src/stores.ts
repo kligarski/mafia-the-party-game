@@ -1,3 +1,4 @@
+import ReconnectingWebSocket from "reconnecting-websocket";
 import { writable } from "svelte/store";
 
 const WEBSOCKET_URL = "ws://127.0.0.1:8000/ws/game/";
@@ -82,16 +83,12 @@ function createGameCodeStore() {
 
 export const gameCode = createGameCodeStore();
 
-let ws: WebSocket | undefined;
+let ws: ReconnectingWebSocket | undefined;
 
 export const connect = function(gameCode: string) {
     setGameCode(gameCode);
 
-    ws = new WebSocket(WEBSOCKET_URL + gameCode + "/");
-
-    ws.onopen = function (event) {
-        console.log("Established WebSocket connection with the game server.");
-    }
+    ws = new ReconnectingWebSocket(WEBSOCKET_URL + gameCode + "/");
 
     ws.onmessage = function(event) {
         let message: WebSocketMessage = JSON.parse(event.data);
@@ -110,13 +107,6 @@ export const connect = function(gameCode: string) {
                 console.log(JSON.parse(event.data));
                 break;
         }
-    }
-
-    ws.onclose = function(event) {
-        console.log("WebSocket connection closed.")
-        console.log(event);
-
-        // TODO: reconnect
     }
 }
 

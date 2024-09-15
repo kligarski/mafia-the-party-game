@@ -7,18 +7,6 @@
 
   let timer: Timer;
 
-  // $: mode = $view.data.mode;
-
-  // afterUpdate(() => {
-  //   console.log($view);
-  //   if (mode === "ongoing") {
-  //     timer.setTimer($view.data.data.timeRemaining);
-  //     console.log($view.data.data.timeRemaining);
-  //   } else if (mode === "finished") {
-  //     timer.skipTimer();
-  //   }
-  // });
-
   function extend() {
     sendMessage({
       action: "extendDiscussion",

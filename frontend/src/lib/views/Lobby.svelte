@@ -8,11 +8,6 @@
 
   $: playerCount = $view.data.players.length;
 
-  afterUpdate(() => {
-    console.log($view);
-    console.log($playerState);
-  });
-
   function gameStart() {
     sendMessage({
       action: "startGame",
