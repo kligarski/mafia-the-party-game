@@ -179,7 +179,6 @@ class DayVote(GameState):
                     "votedOut": {
                         "id": voted_out_player.id,
                         "username": voted_out_player.user.visible_username,
-                        "role": voted_out_player.role
                     } if voted_out_player is not None else None
                 }
             }
@@ -191,10 +190,8 @@ class DayVote(GameState):
         
         for player in self.game.regular_players():
             player.view = view
-            player.players_discovered.add(voted_out_player)
             player.save(update_fields=["view"])
             player.update_view()
-            player.update_state()        
                
     def end(self):
         self.current_state = self.State.EVENT_FINISHED

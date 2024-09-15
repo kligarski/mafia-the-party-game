@@ -14,7 +14,7 @@
 
 <div class="outcome">
   {#if player !== null}
-    <BigRole roleName={player.role} />
+    <BigRole roleName="player" />
   {/if}
   <div class="username-and-desc">
     {#if player !== null}
