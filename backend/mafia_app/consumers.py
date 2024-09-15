@@ -1,6 +1,7 @@
 from channels.generic.websocket import JsonWebsocketConsumer
+from random import choice
 
-from .models import Game, Lobby
+from .models import Game, Lobby, Player
 
 class GameConsumer(JsonWebsocketConsumer):
     def connect(self):
@@ -21,8 +22,13 @@ class GameConsumer(JsonWebsocketConsumer):
             self.player.is_connected = True
             self.player.channel_name = self.channel_name
             self.player.save(update_fields=["is_connected", "channel_name"])
+        elif len(game_player) == 0:
+            self.player = Player.objects.create(user=self.user, game=self.game, 
+                                                role=Player.Role.VILLAGER,
+                                                is_connected=True, channel_name=self.channel_name)
         else:
             self.close(4004)
+            return
         
         self.accept()
         
@@ -36,7 +42,7 @@ class GameConsumer(JsonWebsocketConsumer):
         else:
             self.player.update_view()
         
-    def disconnect(self, code):
+    def disconnect(self, code):        
         self.player.is_connected = False
         self.player.channel_name = None
         self.player.save(update_fields=["is_connected", "channel_name"])
@@ -44,8 +50,25 @@ class GameConsumer(JsonWebsocketConsumer):
         self.game.refresh_from_db()
         
         if not self.game.has_started:
-            lobby = Lobby.objects.get(game=self.game)
-            lobby.handle_players_change()
+            if len(self.game.players.all()) == 1:
+                self.game.delete()
+            else:
+                old_moderator = self.player
+                new_moderator = None
+                
+                if old_moderator.role == Player.Role.MODERATOR:
+                    new_moderator = choice(list(self.game.regular_players()))
+                    new_moderator.role = Player.Role.MODERATOR
+                    self.game.moderator = new_moderator
+                    new_moderator.save(update_fields=["role"])
+                    
+                old_moderator.delete()
+                
+                if new_moderator is not None:
+                    new_moderator.update_view()
+                
+                lobby = Lobby.objects.get(game=self.game)
+                lobby.handle_players_change()
     
     def receive_json(self, content: dict):
         if "action" in content.keys() and "data" in content.keys():

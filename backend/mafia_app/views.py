@@ -47,9 +47,6 @@ def game(request, game_code):
         elif game.has_started:
             messages.error(request, "This game has already started.")
             return HttpResponseRedirect(reverse("index"))
-        else:
-            Player.objects.create(user=request.user, game=game, 
-                                role=Player.Role.VILLAGER)
     
     return render(request, "game.html", {
         "game_code": game_code
