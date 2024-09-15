@@ -163,10 +163,10 @@ class DayVote(GameState):
                 tie = False
         
         no_players = len(self.game.regular_players().filter(is_alive=True))
-        required_votes = no_players // 2 if no_players % 2 == 0 else no_players // 2 + 1
+        required_votes = no_players // 2
         
         voted_out_player = None
-        if not tie and most_votes >= required_votes:
+        if not tie and most_votes > required_votes:
             voted_out_player = Player.objects.get(id=most_votes_player_id)
             voted_out_player.is_alive = False
             voted_out_player.save(update_fields=["is_alive"])
