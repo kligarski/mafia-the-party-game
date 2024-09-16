@@ -43,7 +43,10 @@ class End(GameState):
         match action_type:
             case "backToMenu" if (player.role == Player.Role.MODERATOR 
                                   and self.game.has_finished == False):
-                self.back_to_menu()
+                self.back_to_menu_mod()
+            
+            case "backToMenu" if (player.role != Player.Role.MODERATOR):
+                self.back_to_menu_player(player)
             
             case "newGame" if (player.role == Player.Role.MODERATOR
                                and self.game.has_finished == False):
@@ -52,7 +55,7 @@ class End(GameState):
             case _:
                 self.unknown_action(player, action_type, action_data)
                 
-    def back_to_menu(self):
+    def back_to_menu_mod(self):
         self.game.has_finished = True
         self.game.save(update_fields=["has_finished"])
         
@@ -67,6 +70,18 @@ class End(GameState):
             player.view = view
             player.save(update_fields=["view"])
             player.update_view()
+    
+    def back_to_menu_player(self, player):
+        view = {
+            "view": "redirect",
+            "data": {
+                "path": "/"
+            }
+        }
+        
+        player.view = view
+        player.save(update_fields=["view"])
+        player.update_view()
     
     def new_game(self):
         self.game.has_finished = True

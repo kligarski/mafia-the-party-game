@@ -3,12 +3,12 @@ import { writable } from "svelte/store";
 
 const WEBSOCKET_URL = "ws://127.0.0.1:8000/ws/game/";
 
-type WebSocketMessage = {
+interface WebSocketMessage {
     action: string,
     data: any
 }
 
-export type View = {
+export interface View {
     view: string,
     data: any
 }
@@ -30,16 +30,17 @@ function createViewStore() {
 
 export const view = createViewStore();
 
-export type Player = {
+export interface Player {
     id: number,
     username: string,
     role?: string,
+    team?: string,
     alive?: boolean,
     chosen?: boolean,
     votes?: number
 }
 
-export type PlayerState = {
+export interface PlayerState {
     id: number,
     username: string,
     role: string,
@@ -110,7 +111,7 @@ export const connect = function(gameCode: string) {
     }
 }
 
-export type Message = {
+export interface Message {
     action: string,
     data: any
 }

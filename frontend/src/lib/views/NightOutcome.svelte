@@ -1,4 +1,5 @@
 <script>
+  import { fillRoleTeamData } from "../../roles";
   import { playerState, sendMessage, view } from "../../stores";
   import BigRole from "../components/BigRole.svelte";
 
@@ -6,17 +7,7 @@
 
   $: player = $view.data.mode === "someoneDied" ? $view.data.data : null;
   $: {
-    if (player !== null) {
-      let playerDataFromState = $playerState.playersDiscovered.find(
-        (p) => p.id == player.id && p.role !== undefined
-      );
-
-      if (playerDataFromState) {
-        player.role = playerDataFromState.role;
-      } else {
-        player.role = "player";
-      }
-    }
+    fillRoleTeamData(player, $playerState.playersDiscovered);
   }
 
   function nightOutcomeConfirm() {
@@ -31,7 +22,7 @@
   <GameScreenHeader header={"Day #" + $playerState.cycle} />
   <div class="outcome">
     {#if player !== null}
-      <BigRole roleName={player.role} showHeader={player.role !== "player"} />
+      <BigRole {player} />
     {/if}
     <div class="username-and-desc">
       {#if player !== null}

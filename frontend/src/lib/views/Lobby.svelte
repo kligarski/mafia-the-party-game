@@ -4,8 +4,11 @@
   import { view, sendMessage, playerState } from "../../stores";
   import PlayerList from "../components/PlayerList.svelte";
   import LobbyActionsButtons from "../components/modes/lobby/LobbyActionsButtons.svelte";
+  import { afterUpdate } from "svelte";
 
   $: playerCount = $view.data.players.length;
+
+  afterUpdate(() => console.log($view));
 
   function gameStart() {
     sendMessage({
@@ -31,6 +34,9 @@
     />
   </div>
   {#if $playerState.role === "moderator"}
+    {#if $view.data.error !== undefined}
+      <div class="error-message">{$view.data.error}</div>
+    {/if}
     <button class="main-button" on:click={gameStart}
       >Let the night begin!</button
     >

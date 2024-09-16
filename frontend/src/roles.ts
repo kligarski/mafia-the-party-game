@@ -1,4 +1,6 @@
-export type Role = {
+import type { Player } from "./stores";
+
+export interface RoleOrTeam {
   name: string,
   description: string,
   icon: string,
@@ -8,18 +10,21 @@ export type Role = {
 export const teams: any = {
   players: {
     name: "Players",
+    description: "Everyone is a player.",
     icon: "person",
     color: "var(--background)",
   },
 
   village: {
     name: "Village",
-    icon: "person",
+    description: "Villagers' goal is to eliminate the mafia.",
+    icon: "how_to_reg",
     color: "var(--green)",
   },
 
   mafia: {
     name: "Mafia",
+    description: "Mafia's goal is to kill regular citizens.",
     icon: "domino_mask",
     color: "var(--red)",
   }
@@ -72,5 +77,35 @@ export const roles: any = {
     icon: "visibility",
     color: "var(--yellow)",
     team: "village",
+  }
+}
+
+export function fillRoleTeamData(player: Player | null, playersDiscovered: Player[]) {
+  if (player !== null) {
+    let playerDataFromState = playersDiscovered.find(
+      (p) => p.id == player.id && (p.role !== undefined || p.team !== undefined)
+    );
+
+    if (playerDataFromState?.role) {
+      player.role = playerDataFromState.role;
+    } else if (playerDataFromState?.team) {
+      player.team = playerDataFromState.team
+    } else {
+      player.team = "players";
+    }
+  }
+}
+
+export function getRoleOrTeamData(player: Player | null): RoleOrTeam {
+  if (player === null) {
+    return teams["players"];
+  }
+
+  if (player.role) {
+    return roles[player.role];
+  } else if (player.team) {
+    return teams[player.team];
+  } else {
+    return teams["players"];
   }
 }

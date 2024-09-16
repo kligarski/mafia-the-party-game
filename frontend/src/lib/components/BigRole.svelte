@@ -1,24 +1,45 @@
 <script lang="ts">
-  import { roles } from "../../roles";
+  import { getRoleOrTeamData, roles } from "../../roles";
+  import type { Player } from "../../stores";
   import BigIcon from "./BigIcon.svelte";
 
-  export let roleName: string;
+  export let player: Player | null = null;
+  export let roleName: string = "";
   export let description: boolean = false;
   export let pick: boolean = false;
   export let showHeader: boolean = true;
 
-  $: role = roleName in roles ? roles[roleName] : roles["player"];
-  $: header = pick ? role.name + "'s pick" : role.name;
+  let color: string = "";
+  let icon: string = "";
+  let header: string = "";
+  let descriptionContent: string = "";
+
+  $: {
+    let roleOrTeam;
+    if (player === null) {
+      roleOrTeam = roleName in roles ? roles[roleName] : roles["player"];
+    } else {
+      roleOrTeam = getRoleOrTeamData(player);
+      if (roleOrTeam.name === "Players") {
+        showHeader = false;
+      }
+    }
+
+    color = roleOrTeam.color;
+    icon = roleOrTeam.icon;
+    descriptionContent = roleOrTeam.description;
+    header = pick ? roleOrTeam.name + "'s pick" : roleOrTeam.name;
+  }
 </script>
 
-<div class="big-role" style:color={role.color}>
-  <BigIcon name={role.icon} />
+<div class="big-role" style:color>
+  <BigIcon name={icon} />
   {#if showHeader}
     <div class="role-header">{header}</div>
   {/if}
   {#if description}
     <div class="description">
-      {role.description}
+      {descriptionContent}
     </div>
   {/if}
 </div>

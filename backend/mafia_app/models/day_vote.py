@@ -170,6 +170,7 @@ class DayVote(GameState):
             voted_out_player = Player.objects.get(id=most_votes_player_id)
             voted_out_player.is_alive = False
             voted_out_player.save(update_fields=["is_alive"])
+            voted_out_player.update_state()
 
         view = {
             "view": "dayVote",

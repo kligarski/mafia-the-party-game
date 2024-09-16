@@ -1,5 +1,6 @@
 from .user import User
 from .player import Player
+from .player import Discovery
 from .game import Game
 from .game_state import GameState
 from .day_vote import DayVote

@@ -1,6 +1,6 @@
 from polymorphic.models import PolymorphicManager
 from django.db import models
-from . import GameState, Player
+from . import GameState, Player, Discovery
 
 class SeerEventManager(PolymorphicManager):
     def create_and_init(self, game, night_event):
@@ -113,10 +113,9 @@ class SeerEvent(GameState):
                     "players": [
                         {
                             "id": player.id,
-                            "username": player.user.visible_username,
-                            "alive": player.is_alive
+                            "username": player.user.visible_username
                         }
-                        for player in self.game.regular_players()
+                        for player in self.game.regular_players().filter(is_alive=True)
                     ]
                 }
             }
@@ -154,9 +153,6 @@ class SeerEvent(GameState):
             }
         }
         
-        
-        # TODO: reveal only team (mafia vs village), instead of role (e.g. protector or seer!)
-        # possibly use additional data for the relation that will make clear whether player knows the team or the role of another player.
         seer_view = {
             "view": "seerPick",
             "data": {
@@ -165,7 +161,7 @@ class SeerEvent(GameState):
                     "pick": {
                         "id": picked_player.id,
                         "username": picked_player.user.visible_username,
-                        "role": picked_player.role
+                        "team": Player.ROLE_TO_TEAM[picked_player.role]
                     }
                 }
             }
@@ -179,8 +175,9 @@ class SeerEvent(GameState):
         self.seer.save(update_fields=["view"])
         self.seer.update_view()
         
-        self.seer.players_discovered.add(picked_player)
-        self.seer.update_state()
+        if picked_player != self.seer:
+            self.seer.players_discovered.add(picked_player, through_defaults={"type": Discovery.Type.TEAM})
+            self.seer.update_state()
         
     def seer_confirm(self):
         self.current_state = self.State.MODERATOR_END

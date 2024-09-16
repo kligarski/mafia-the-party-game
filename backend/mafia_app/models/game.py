@@ -52,9 +52,3 @@ class Game(models.Model):
     
     def handle_action(self, player, action_type, action_data):
         self.current_state.handle_action(player, action_type, action_data)
-        
-    def report_error_to_moderator(self, error_msg):
-        if self.moderator is None:
-            return
-        
-        self.moderator.send("error", error_msg)

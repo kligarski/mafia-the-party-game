@@ -31,6 +31,7 @@ class Lobby(GameState):
         
         for player in connected_players:
             player.view = view
+            player.save(update_fields=["view"])
             player.update_view()
             
     def start_game(self):
@@ -49,8 +50,11 @@ class Lobby(GameState):
             
             role_reveal.start()
         else:
-            self.game.report_error_to_moderator(("There are not enough players to start the game "
-                                                "(at least 4 regular players are required)."))
+            self.game.moderator.refresh_from_db()
+            print(self.game.moderator.view)
+            self.game.moderator.view["data"]["error"] = "There are not enough players to start the game (at least 4 regular players are required)."
+            self.game.moderator.save(update_fields=["view"])
+            self.game.moderator.update_view()
     
     def kick_player(self, data):
         player_id = data["id"]

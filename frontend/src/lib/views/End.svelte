@@ -23,12 +23,13 @@
 <div class="game space-between">
   <GameEndBigTeam {teamName} />
   <PlayerList players={$view.data.data.players} />
-  {#if $playerState.role === "moderator"}
-    <div class="buttons">
-      <button class="main-button" on:click={backToMenu}>Back to menu</button>
+
+  <div class="buttons">
+    <button class="main-button" on:click={backToMenu}>Back to menu</button>
+    {#if $playerState.role === "moderator"}
       <button class="main-button" on:click={newGame}>New game</button>
-    </div>
-  {/if}
+    {/if}
+  </div>
 </div>
 
 <style>

@@ -12,7 +12,7 @@
 </script>
 
 <div class="result">
-  <BigRole roleName={$view.data.data.pick.role} />
+  <BigRole player={$view.data.data.pick} />
   <h1>{$view.data.data.pick.username}</h1>
   <button class="main-button" on:click={endEvent}>Continue</button>
 </div>

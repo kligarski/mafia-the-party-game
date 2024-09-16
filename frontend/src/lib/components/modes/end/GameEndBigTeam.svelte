@@ -1,10 +1,21 @@
 <script lang="ts">
-  import { teams } from "../../../../roles";
+  import { teams, type RoleOrTeam } from "../../../../roles";
   import BigIcon from "../../BigIcon.svelte";
 
   export let teamName: string;
 
-  $: team = teamName in teams ? teams[teamName] : teams["players"];
+  let team: RoleOrTeam;
+  $: {
+    if (teamName in teams) {
+      team = teams[teamName];
+
+      if (team.name === "Village") {
+        team.icon = "person";
+      }
+    } else {
+      team = teams["players"];
+    }
+  }
 </script>
 
 <div class="big-team" style:color={team.color}>

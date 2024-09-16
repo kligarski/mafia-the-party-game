@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sendMessage } from "../../../../stores";
+  import { playerState, sendMessage } from "../../../../stores";
   import PlayerListPill from "../../PlayerListPill.svelte";
 
   export let playerId: number;
@@ -14,11 +14,13 @@
   }
 </script>
 
-<div class="seer-pick-pill">
-  <PlayerListPill isClickable={true} on:player-list-pill-click={handleClick}>
-    Investigate
-  </PlayerListPill>
-</div>
+{#if playerId !== $playerState.id}
+  <div class="seer-pick-pill">
+    <PlayerListPill isClickable={true} on:player-list-pill-click={handleClick}>
+      Investigate
+    </PlayerListPill>
+  </div>
+{/if}
 
 <style>
   :global(.seer-pick-pill > .player-list-pill) {

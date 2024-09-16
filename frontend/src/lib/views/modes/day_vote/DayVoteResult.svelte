@@ -1,8 +1,12 @@
 <script>
+  import { fillRoleTeamData } from "../../../../roles";
   import { playerState, sendMessage, view } from "../../../../stores";
   import BigRole from "../../../components/BigRole.svelte";
 
   $: player = $view.data.data.votedOut;
+  $: {
+    fillRoleTeamData(player, $playerState.playersDiscovered);
+  }
 
   function endDayVote() {
     sendMessage({
@@ -14,7 +18,7 @@
 
 <div class="outcome">
   {#if player !== null}
-    <BigRole roleName="player" />
+    <BigRole {player} />
   {/if}
   <div class="username-and-desc">
     {#if player !== null}

@@ -1,20 +1,12 @@
 <script lang="ts">
   import { playerState, type Player } from "../../stores";
-  import { roles } from "../../roles";
+  import { fillRoleTeamData, getRoleOrTeamData } from "../../roles";
   import Icon from "../icons/Icon.svelte";
 
   export let player: Player;
 
   $: {
-    if (player.role === undefined) {
-      let playerDataFromState = $playerState.playersDiscovered.find(
-        (p) => p.id == player.id && p.role !== undefined
-      );
-
-      if (playerDataFromState) {
-        player.role = playerDataFromState.role;
-      }
-    }
+    fillRoleTeamData(player, $playerState.playersDiscovered);
   }
 
   const alive = player.alive !== undefined ? player.alive : true;
@@ -27,11 +19,7 @@
 
 <div class="pill">
   <div class={playerDataClass} style:color>
-    <Icon
-      name={player.role === undefined
-        ? roles["player"].icon
-        : roles[player.role].icon}
-    />
+    <Icon name={getRoleOrTeamData(player).icon} />
     <span class="username">
       {player.username}
     </span>
