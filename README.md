@@ -58,7 +58,7 @@ For release, you can use:
 ```
 npm run build
 ```
-
+Before running the dev/build script, you might want to change WebSocket URL in `src/stores.ts`.
 ### Backend
 ```
 cd ../backend

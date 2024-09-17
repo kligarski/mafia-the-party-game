@@ -78,5 +78,6 @@
   .timer {
     font-size: clamp(2.5rem, min(25vw, 10vh), 8rem);
     font-style: italic;
+    line-height: 0.7;
   }
 </style>

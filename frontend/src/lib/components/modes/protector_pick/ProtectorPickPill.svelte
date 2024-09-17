@@ -1,5 +1,6 @@
 <script lang="ts">
   import { sendMessage } from "../../../../stores";
+  import Icon from "../../../icons/Icon.svelte";
   import PlayerListPill from "../../PlayerListPill.svelte";
 
   export let playerId: number;
@@ -16,7 +17,7 @@
 
 <div class="protector-pick-pill">
   <PlayerListPill isClickable={true} on:player-list-pill-click={handleClick}>
-    Protect
+    <Icon name="verified_user" />
   </PlayerListPill>
 </div>
 

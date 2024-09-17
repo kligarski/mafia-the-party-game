@@ -78,9 +78,9 @@
 
 <div class="bottom-box">
   {#if bottomText !== ""}
-    <div>
+    <span>
       {@html bottomText}
-    </div>
+    </span>
   {/if}
   {#if $view.data.mode === "moderatorInfo" || $view.data.mode === "moderatorResult"}
     <button
@@ -103,6 +103,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     gap: 1em;
   }

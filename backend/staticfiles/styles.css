@@ -57,6 +57,12 @@ body {
   font-size: clamp(1.1rem, 4vw, 1.4rem);
 }
 
+@media screen and (max-height: 600px) and (min-aspect-ratio: 1/1) {
+  body {
+    height: auto;
+  }
+}
+
 ::selection {
   background: rgba(244, 238, 224, 0.2);
 }

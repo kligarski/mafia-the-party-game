@@ -1,5 +1,6 @@
 <script lang="ts">
   import { playerState, sendMessage } from "../../../../stores";
+  import Icon from "../../../icons/Icon.svelte";
   import PlayerListPill from "../../PlayerListPill.svelte";
 
   export let playerId: number;
@@ -17,7 +18,7 @@
 {#if playerId !== $playerState.id}
   <div class="seer-pick-pill">
     <PlayerListPill isClickable={true} on:player-list-pill-click={handleClick}>
-      Investigate
+      <Icon name="search" />
     </PlayerListPill>
   </div>
 {/if}

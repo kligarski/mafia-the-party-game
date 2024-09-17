@@ -57,7 +57,6 @@
   .header {
     font-size: clamp(1.8rem, 10vw, 3rem);
     margin: 0;
-    margin-bottom: -0.7em;
   }
 
   .buttons {
